@@ -31,5 +31,8 @@ aws lambda update-function-configuration --function-name YourLambdaFunction2 --l
 Create a metric filter to monitor 500 errors in your log group:
 ```
 aws logs put-metric-filter --log-group-name YourLogGroupName --filter-name 500Errors --filter-pattern "ERROR status=500" --metric-transformations "metricName=500ErrorCount,metricNamespace=YourNamespace"
+
+aws logs put-metric-filter --log-group-name YourLogGroupName --filter-name 5xxErrors --filter-pattern "{ ($.status >= 500 && $.status < 600) }" --metric-transformations "metricName=5xxErrorCount,metricNamespace=YourNamespace"
+
 ```
   
