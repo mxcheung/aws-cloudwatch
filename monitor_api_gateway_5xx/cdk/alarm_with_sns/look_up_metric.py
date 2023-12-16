@@ -1,6 +1,12 @@
 import * as cdk from 'aws-cdk-lib';
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 
+const metric = new cloudwatch.Metric({
+  namespace: 'AWS/SQS',
+  metricName: 'ApproximateNumberOfMessagesVisible',
+  dimensions: { QueueName: queue.getAtt('QueueName') }
+});
+
 // ...
 
 const apiGatewayMetric = new cloudwatch.Metric({
