@@ -17,3 +17,9 @@ fields @timestamp, @message
 | sort @timestamp desc
 | limit 100
 ```
+
+```
+fields @message
+| parse @message "*key1=* *key2=*" as key1, key2
+| stats count() by key1, key2
+```
