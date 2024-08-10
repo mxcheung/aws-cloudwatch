@@ -1,6 +1,6 @@
 import * as cdk from '@aws-cdk/core';
 import * as cloudwatch from '@aws-cdk/aws-cloudwatch';
-import { GraphWidget, Dashboard, LogQueryWidget, TextWidget } from 'aws-cdk/aws-cloudwatch';
+import { GraphWidget, Dashboard, LogQueryWidget, TextWidget } from '@aws-cdk/aws-cloudwatch';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class MyCloudwatchDashboardStack extends cdk.Stack {
@@ -37,5 +37,7 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
     });
    
    
+    this.dashboard.addWidgets(fortunesLogWidget)
+
   }
 }
