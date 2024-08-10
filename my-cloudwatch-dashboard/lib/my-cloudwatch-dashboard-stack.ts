@@ -37,7 +37,23 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
     });
    
    
-    this.dashboard.addWidgets(fortunesLogWidget)
+      // Define the LogQueryWidget
+    const fortunesBarWidget = new cloudwatch.LogQueryWidget({
+      logGroupNames: ['/aws/lambda/fortunes'],
+      queryLines: [
+        'fields @timestamp, @message',
+        'filter @message like /fortid/',
+        'parse @message "fortid: *" as fortid',
+        'stats count(*) as count by  fortid, bin(1h)',
+        'sort @timestamp desc',
+        'limit 10000'
+      ],
+      view: cloudwatch.LogQueryVisualizationType.BAR,
+      height: 12,
+      width: 24,
+    });
 
+    this.dashboard.addWidgets(fortunesLogWidget, fortunesBarWidget)
+    
   }
 }
