@@ -23,7 +23,7 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
 
 
    // Define the LogQueryWidget
-    const fortunesLogWidget = new cloudwatch.LogQueryWidget({
+    const fortunesLogWidget = new LogQueryWidget({
       logGroupNames: ['/aws/lambda/fortunes'],
       queryLines: [
         'fields @timestamp, @message, @logStream, @log',
@@ -38,7 +38,7 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
    
    
       // Define the LogQueryWidget
-    const fortunesBarWidget = new cloudwatch.LogQueryWidget({
+    const fortunesBarWidget = new LogQueryWidget({
       logGroupNames: ['/aws/lambda/fortunes'],
       queryLines: [
         'fields @timestamp, @message',
@@ -53,7 +53,36 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
       width: 24,
     });
 
+   
     this.dashboard.addWidgets(fortunesLogWidget, fortunesBarWidget)
+ 
+     // Define a GraphWidget for EC2 CPU Utilization
+    const ec2CpuUtilizationWidget = new GraphWidget({
+      title: 'EC2 CPU Utilization',
+      left: [
+        new cloudwatch.Metric({
+          namespace: 'AWS/EC2',
+          metricName: 'CPUUtilization',
+          dimensionsMap: {
+            InstanceId: 'i-1234567890abcdef0',
+          },
+          period: cdk.Duration.minutes(5),
+        }),
+      ],
+      view: cloudwatch.GraphWidgetView.TIME_SERIES,
+      stacked: false,
+      height: 6,
+      width: 12,
+    });
     
+    // Define a TextWidget for additional information
+    const textWidget = new TextWidget({
+      markdown: '# Welcome to My Dashboard\n\nThis is a description of the metrics and logs.',
+      height: 3,
+      width: 24,
+    });
+    
+     this.dashboard.addWidgets(ec2CpuUtilizationWidget, textWidget)
+
   }
 }
