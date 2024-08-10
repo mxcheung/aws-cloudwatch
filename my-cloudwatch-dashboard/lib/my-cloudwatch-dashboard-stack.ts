@@ -1,8 +1,11 @@
 import * as cdk from '@aws-cdk/core';
 import * as cloudwatch from '@aws-cdk/aws-cloudwatch';
+import { GraphWidget, Dashboard, LogQueryWidget, TextWidget } from 'aws-cdk/aws-cloudwatch';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class MyCloudwatchDashboardStack extends cdk.Stack {
+  private dashboard: Dashboard
+  
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -13,32 +16,25 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
     //   visibilityTimeout: cdk.Duration.seconds(300)
     // });
 
-    // Define a CloudWatch dashboard
-    const dashboard = new cloudwatch.CfnDashboard(this, 'MyDashboard', {
+    // Create a CloudWatch dashboard
+    this.dashboard = new cloudwatch.Dashboard(this, 'MyDashboard', {
       dashboardName: 'MyDashboard',
-      dashboardBody: JSON.stringify({
-        widgets: [
-          {
-            type: 'metric',
-            x: 0,
-            y: 0,
-            width: 12,
-            height: 6,
-            properties: {
-              metrics: [
-                ['AWS/EC2', 'CPUUtilization', 'InstanceId', 'i-1234567890abcdef0']
-              ],
-              view: 'timeSeries',
-              stacked: false,
-              region: 'us-east-1',
-              period: 300,
-              title: 'EC2 CPU Utilization',
-            },
-          },
-          // Add more widgets as needed
-        ],
-      }),
-    });    
-    
+    });
+
+
+   // Define the LogQueryWidget
+    const fortunesLogWidget = new cloudwatch.LogQueryWidget({
+      logGroupNames: [logGroup.logGroupName],
+      queryLines: [
+        'fields @timestamp, @message, @logStream, @log',
+        'filter @message like /get_fortune_id/',
+        'sort @timestamp desc',
+        'limit 10000'
+      ],
+      view: cloudwatch.LogQueryVisualizationType.TABLE,
+      height: 12,
+      width: 24,
+    });
+   
   }
 }
