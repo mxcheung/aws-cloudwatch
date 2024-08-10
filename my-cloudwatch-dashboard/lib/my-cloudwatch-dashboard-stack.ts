@@ -24,7 +24,7 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
 
    // Define the LogQueryWidget
     const fortunesLogWidget = new cloudwatch.LogQueryWidget({
-      logGroupNames: [logGroup.logGroupName],
+      logGroupNames: ['/aws/lambda/fortunes'],
       queryLines: [
         'fields @timestamp, @message, @logStream, @log',
         'filter @message like /get_fortune_id/',
@@ -35,6 +35,7 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
       height: 12,
       width: 24,
     });
+   
    
   }
 }
