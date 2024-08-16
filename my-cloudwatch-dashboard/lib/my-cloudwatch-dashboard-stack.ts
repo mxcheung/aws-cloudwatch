@@ -1,6 +1,6 @@
 import * as cdk from '@aws-cdk/core';
 import * as cloudwatch from '@aws-cdk/aws-cloudwatch';
-import { GraphWidget, Dashboard, LogQueryWidget, TextWidget } from '@aws-cdk/aws-cloudwatch';
+import { Metric, GraphWidget, Dashboard, LogQueryWidget, TextWidget } from '@aws-cdk/aws-cloudwatch';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class MyCloudwatchDashboardStack extends cdk.Stack {
@@ -83,6 +83,29 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
     });
     
      this.dashboard.addWidgets(ec2CpuUtilizationWidget, textWidget)
+
+
+    // Define the metric you want to visualize
+    const metric = new Metric({
+      namespace: 'AWS/Lambda',
+      metricName: 'Invocations',
+      dimensionsMap: { FunctionName: 'fortunes' },
+      period: cdk.Duration.minutes(5),
+      statistic: 'Sum',
+    });
+    
+    // Create a GraphWidget
+    const graphWidget = new GraphWidget({
+      title: 'Lambda Invocations',
+      left: [metric], // Left Y-axis metrics
+      width: 12, // Optional: Specify the width of the widget
+      height: 6, // Optional: Specify the height of the widget
+    });
+    
+    // Add the widget to the dashboard
+    this.dashboard.addWidgets(graphWidget);    
+
+    
 
   }
 }
