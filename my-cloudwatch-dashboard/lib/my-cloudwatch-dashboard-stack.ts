@@ -105,7 +105,5 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
     // Add the widget to the dashboard
     this.dashboard.addWidgets(graphWidget);    
 
-    
-
   }
 }
