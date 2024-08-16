@@ -93,11 +93,21 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
       period: cdk.Duration.minutes(5),
       statistic: 'Sum',
     });
+
+    // Define the second metric for the second Lambda function
+    const lambda2Metric = new Metric({
+      namespace: 'AWS/Lambda',
+      metricName: 'Invocations',
+      dimensionsMap: { FunctionName: 'chaos-monkey' },
+      period: cdk.Duration.minutes(5),
+      statistic: 'Sum',
+    });
+    
     
     // Create a GraphWidget
     const graphWidget = new GraphWidget({
       title: 'Lambda Invocations',
-      left: [metric], // Left Y-axis metrics
+      left: [metric, lambda2Metric], // Left Y-axis metrics
       width: 12, // Optional: Specify the width of the widget
       height: 6, // Optional: Specify the height of the widget
     });
