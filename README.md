@@ -15,3 +15,9 @@ fields @timestamp, @message, @log
 | sort @timestamp desc
 
 ```
+
+```
+fields @timestamp, @message, @log
+| parse @log "*:/aws/lambda/*" as log_prefix, lambda_function_name
+| sort @timestamp desc
+```
