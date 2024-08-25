@@ -104,6 +104,26 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
     });
     
     
+    
+
+    
+    // Define existing metrics
+    const getFortuneIdExecutionTime = new Metric({
+      namespace: 'YourNameSpace',
+      metricName: 'get_fortune_id_execution_time',
+      dimensionsMap: { FunctionName: 'LambdaCookies' },
+      period: cdk.Duration.minutes(5),
+      statistic: 'Sum',
+    });
+
+    const getFortuneExecutionTime = new Metric({
+      namespace: 'YourNameSpace',
+      metricName: 'get_fortune_execution_time',
+      dimensionsMap: { FunctionName: 'LambdaCookies' },
+      period: cdk.Duration.minutes(5),
+      statistic: 'Sum',
+    });
+    
     // Create a GraphWidget
     const graphWidget = new GraphWidget({
       title: 'Lambda Invocations',
@@ -112,8 +132,17 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
       height: 6, // Optional: Specify the height of the widget
     });
     
-    // Add the widget to the dashboard
-    this.dashboard.addWidgets(graphWidget);    
+    // Create a GraphWidget  getFortuneIdExecutionTime and getFortuneExecutionTime
+    const fortuneGraphWidget = new GraphWidget({
+      title: 'Fortune Excecution times',
+      left: [getFortuneIdExecutionTime, getFortuneExecutionTime], // Left Y-axis metrics
+      width: 12, // Optional: Specify the width of the widget
+      height: 6, // Optional: Specify the height of the widget
+    });
+    
+    
+    // Add the graph widgets to the dashboard
+    this.dashboard.addWidgets(graphWidget, fortuneGraphWidget);    
 
   }
 }
