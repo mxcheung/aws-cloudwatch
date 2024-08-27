@@ -144,5 +144,33 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
     // Add the graph widgets to the dashboard
     this.dashboard.addWidgets(graphWidget, fortuneGraphWidget);    
 
+    // Create CloudWatch metrics for ACK and NACK
+    const ackMetric = new cloudwatch.Metric({
+      namespace: 'MessageProcessing',
+      metricName: 'ACK',
+      statistic: 'Sum',
+    });
+
+    const nackMetric = new cloudwatch.Metric({
+      namespace: 'MessageProcessing',
+      metricName: 'NACK',
+      statistic: 'Sum',
+    });
+
+    // Create a GraphWidget  getFortuneIdExecutionTime and getFortuneExecutionTime
+    const fortuneGraphWidget = new GraphWidget({
+      title: 'Fortune Excecution times',
+      left: [getFortuneIdExecutionTime, getFortuneExecutionTime], // Left Y-axis metrics
+      width: 12, // Optional: Specify the width of the widget
+      height: 6, // Optional: Specify the height of the widget
+    });
+    const ackNackGraphWidget =      new cloudwatch.GraphWidget({
+       title: 'Message Processing Status',
+       left: [ackMetric, nackMetric],
+    })
+    
+    // Add ack Nack widget to the dashboard
+    this.dashboard.addWidgets(ackNackGraphWidget);
+    
   }
 }
