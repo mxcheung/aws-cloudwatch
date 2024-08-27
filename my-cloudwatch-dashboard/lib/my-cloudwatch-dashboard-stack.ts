@@ -148,22 +148,28 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
     const ackMetric = new Metric({
       namespace: 'MessageProcessing',
       metricName: 'ACK',
+      dimensionsMap: { MessageStatus: 'ACK' },
+      period: cdk.Duration.minutes(5),      
       statistic: 'Sum',
     });
+
 
     const nackMetric = new Metric({
       namespace: 'MessageProcessing',
       metricName: 'NACK',
+      dimensionsMap: { MessageStatus: 'NACK' },
+      period: cdk.Duration.minutes(5),          
       statistic: 'Sum',
     });
-    
+
     
     const ackNackGraphWidget =      new cloudwatch.GraphWidget({
        title: 'Message Processing Status',
        left: [ackMetric, nackMetric],
-        period: cdk.Duration.minutes(1),  // Ensure this period matches the frequency of your metric data
-        view: cloudwatch.GraphWidgetView.TIME_SERIES,
+       width: 12, // Optional: Specify the width of the widget
+       height: 6, // Optional: Specify the height of the widget
     })
+    
     
     // Add ack Nack widget to the dashboard
     this.dashboard.addWidgets(ackNackGraphWidget);
