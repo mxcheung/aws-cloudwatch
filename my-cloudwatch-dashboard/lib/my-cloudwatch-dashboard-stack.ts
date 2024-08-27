@@ -161,6 +161,8 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
     const ackNackGraphWidget =      new cloudwatch.GraphWidget({
        title: 'Message Processing Status',
        left: [ackMetric, nackMetric],
+        period: cdk.Duration.minutes(1),  // Ensure this period matches the frequency of your metric data
+        view: cloudwatch.GraphWidgetView.TIME_SERIES,
     })
     
     // Add ack Nack widget to the dashboard
