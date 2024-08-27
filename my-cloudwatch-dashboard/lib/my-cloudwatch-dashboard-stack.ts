@@ -149,7 +149,7 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
       namespace: 'MessageProcessing',
       metricName: 'ACK',
       dimensionsMap: { MessageStatus: 'ACK' },
-      period: cdk.Duration.minutes(5),      
+      period: cdk.Duration.minutes(1),      
       statistic: 'Sum',
     });
 
@@ -158,7 +158,7 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
       namespace: 'MessageProcessing',
       metricName: 'NACK',
       dimensionsMap: { MessageStatus: 'NACK' },
-      period: cdk.Duration.minutes(5),          
+      period: cdk.Duration.minutes(1),          
       statistic: 'Sum',
     });
 
