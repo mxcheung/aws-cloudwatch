@@ -145,27 +145,48 @@ export class MyCloudwatchDashboardStack extends cdk.Stack {
     this.dashboard.addWidgets(graphWidget, fortuneGraphWidget);    
 
     // Create CloudWatch metrics for ACK and NACK
-    const ackMetric = new Metric({
+
+    // Define metrics grouped by message type
+    const mt210AckMetric = new cloudwatch.Metric({
       namespace: 'MessageProcessing',
       metricName: 'ACK',
-      dimensionsMap: { MessageStatus: 'ACK' },
-      period: cdk.Duration.minutes(1),      
+      dimensionsMap: {
+        'MessageType': 'MT210',
+      },
       statistic: 'Sum',
     });
-
-
-    const nackMetric = new Metric({
+    
+    const mt100AckMetric = new cloudwatch.Metric({
       namespace: 'MessageProcessing',
-      metricName: 'NACK',
-      dimensionsMap: { MessageStatus: 'NACK' },
-      period: cdk.Duration.minutes(1),          
+      metricName: 'ACK',
+      dimensionsMap: {
+        'MessageType': 'MT103',
+      },
       statistic: 'Sum',
     });
 
     
+    const mt103AckMetric = new cloudwatch.Metric({
+      namespace: 'MessageProcessing',
+      metricName: 'ACK',
+      dimensionsMap: {
+        'MessageType': 'MT100',
+      },
+      statistic: 'Sum',
+    });
+
+    const mt1210NAckMetric = new cloudwatch.Metric({
+      namespace: 'MessageProcessing',
+      metricName: 'NACK',
+      dimensionsMap: {
+        'MessageType': 'MT210',
+      },
+      statistic: 'Sum',
+    });
+    
     const ackNackGraphWidget =      new cloudwatch.GraphWidget({
        title: 'Message Processing Status',
-       left: [ackMetric, nackMetric],
+       left: [mt100AckMetric, mt103AckMetric, mt210AckMetric, mt1210NAckMetric],
        width: 12, // Optional: Specify the width of the widget
        height: 6, // Optional: Specify the height of the widget
     })
