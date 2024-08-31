@@ -7,3 +7,22 @@ aws logs put-metric-filter \
         metricName=NACKCount,metricNamespace=YourNamespace,metricValue=1
 
 ```
+
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "cloudwatch:PutMetricData",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "cloudwatch:namespace": "MyCustomNamespace"
+                }
+            }
+        }
+    ]
+}
+```
