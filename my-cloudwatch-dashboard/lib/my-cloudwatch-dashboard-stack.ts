@@ -13,6 +13,7 @@ export class MyCloudwatchMetricsStack extends cdk.Stack {
     super(scope, id, props);
 
     // The code that defines your stack goes here
+
     const logGroup = logs.LogGroup.fromLogGroupName(this, 'ImportedLogGroup', '/aws/lambda/fortunes');
 
     const metricFilter = new logs.MetricFilter(this, 'MyMetricFilter', {
