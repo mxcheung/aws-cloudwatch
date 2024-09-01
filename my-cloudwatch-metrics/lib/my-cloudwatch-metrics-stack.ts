@@ -30,6 +30,12 @@ export class MyCloudwatchMetricsStack extends cdk.Stack {
       metricValue: '1',
     });
     
+    // Create a Metric from the filter
+    const metric = new cloudwatch.Metric({
+      namespace: 'FortunesNamespace',
+      metricName: 'FortunesMetricName',
+    });
+    
     
   }
 }
