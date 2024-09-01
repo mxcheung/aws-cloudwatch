@@ -26,7 +26,7 @@ export class MyCloudwatchMetricsStack extends cdk.Stack {
       logGroup,
       metricNamespace: 'FortunesNamespace',
       metricName: 'FortunesMetricName',
-      filterPattern: logs.FilterPattern.literal('ERROR'),
+      filterPattern: logs.FilterPattern.literal('INFO'),
       metricValue: '1',
     });
     
