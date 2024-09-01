@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/my-cloudwatch-dashboard.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/my-cloudwatch-metrics.ts",
   "watch": {
     "include": [
       "**"

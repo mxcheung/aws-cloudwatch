@@ -1,8 +1,8 @@
 {
-  "name": "my-cloudwatch-dashboard",
+  "name": "my-cloudwatch-metrics",
   "version": "0.1.0",
   "bin": {
-    "my-cloudwatch-dashboard": "bin/my-cloudwatch-dashboard.js"
+    "my-cloudwatch-metrics": "bin/my-cloudwatch-metrics.js"
   },
   "scripts": {
     "build": "tsc",
