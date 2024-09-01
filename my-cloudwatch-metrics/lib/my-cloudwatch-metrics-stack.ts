@@ -9,7 +9,7 @@ import { Metric, GraphWidget, Dashboard, LogQueryWidget, TextWidget } from '@aws
 export class MyCloudwatchMetricsStack extends cdk.Stack {
   private dashboard: Dashboard
   
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     // The code that defines your stack goes here
