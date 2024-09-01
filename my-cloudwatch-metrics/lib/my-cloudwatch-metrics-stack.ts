@@ -36,6 +36,20 @@ export class MyCloudwatchMetricsStack extends cdk.Stack {
       metricName: 'FortunesMetricName',
     });
     
+
+    // Define a CloudWatch Dashboard
+    const dashboard = new cloudwatch.Dashboard(this, 'MyFortunesMetricDashboard', {
+      dashboardName: 'MyFortunesMetricDashboard',
+    });
+    
+    // Add the metric to the dashboard
+    dashboard.addWidgets(
+      new cloudwatch.GraphWidget({
+        title: 'My Metric Graph',
+        left: [metric],
+      })
+    );    
+    
     
   }
 }
