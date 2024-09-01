@@ -19,13 +19,13 @@ export class MyCloudwatchMetricsStack extends cdk.Stack {
     //   visibilityTimeout: cdk.Duration.seconds(300)
     // });
 
-    const logGroup = logs.LogGroup.fromLogGroupName(this, 'ImportedLogGroup', '/aws/lambda/my-function');
+    const logGroup = logs.LogGroup.fromLogGroupName(this, 'ImportedLogGroup', '/aws/lambda/fortunes');
 
 
-    const metricFilter = new logs.MetricFilter(this, 'MyMetricFilter', {
+    const metricFilter = new logs.MetricFilter(this, 'FortunesMetricFilter', {
       logGroup,
-      metricNamespace: 'MyNamespace',
-      metricName: 'MyMetricName',
+      metricNamespace: 'FortunesNamespace',
+      metricName: 'FortunesMetricName',
       filterPattern: logs.FilterPattern.literal('ERROR'),
       metricValue: '1',
     });
