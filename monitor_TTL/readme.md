@@ -56,7 +56,7 @@ aws lambda create-event-source-mapping \
 
 ```
 aws dynamodb put-item-policy \
-    --table-name <your-dynamodb-table-name> \
+    --resource-arn "<your-dynamodb-stream-arn>" \
     --policy '{
         "Version": "2012-10-17",
         "Statement": [
@@ -66,12 +66,19 @@ aws dynamodb put-item-policy \
                     "Service": "lambda.amazonaws.com"
                 },
                 "Action": [
-                    "dynamodb:GetItem",
-                    "dynamodb:PutItem",
-                    "dynamodb:DeleteItem",
-                    "dynamodb:UpdateItem",
-                    "dynamodb:Query",
-                    "dynamodb:Scan"
+                    "dynamodb:GetRecords",
+                    "dynamodb:GetShardIterator",
+                    "dynamodb:DescribeStream",
+                    "dynamodb:ListStreams"
                 ],
-                "Resource": "arn:aws:dynamodb:region:account-id:table/<your-dynamodb-table-name>",
+                "Resource": "<your-dynamodb-stream-arn>",
+                "Condition": {
+                    "ArnEquals": {
+                        "aws:SourceArn": "<lambda-function-arn>"
+                    }
+                }
+            }
+        ]
+    }'
+
 ```
