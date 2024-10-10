@@ -13,7 +13,15 @@ aws dynamodb update-time-to-live \
     --table-name InstructionsTable \
     --time-to-live-specification "Enabled=true, AttributeName=expiration_time"
 ```
+```
+current_time=$(date +%s)
+ttl_time=$((current_time + 600)) # Set TTL to expire in 10 minutes
 
+aws dynamodb put-item \
+    --table-name InstructionsTable \
+    --item '{"instruction_id": {"S": "instruction123"}, "expiration_time": {"N": "'"$ttl_time"'"}}'
+
+```
 ```
 aws sns create-topic --name InstructionTTLExpiry
 ```
