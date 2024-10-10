@@ -43,4 +43,14 @@ aws sns subscribe \
     --notification-endpoint your-email@example.com
 ```
 
+
+
+
 ```
+aws lambda create-event-source-mapping \
+    --function-name DynamoDBTTLExpirationHandler \
+    --event-source-arn arn:aws:dynamodb:region:account-id:table/InstructionsTable/stream/latest \
+    --starting-position LATEST
+
+```
+
