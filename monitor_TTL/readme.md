@@ -22,6 +22,12 @@ aws dynamodb put-item \
     --item '{"instruction_id": {"S": "instruction123"}, "expiration_time": {"N": "'"$ttl_time"'"}}'
 
 ```
+
+```
+aws dynamodb describe-table --table-name InstructionsTable \
+    --query "Table.LatestStreamArn"
+```
+
 ```
 aws sns create-topic --name InstructionTTLExpiry
 ```
