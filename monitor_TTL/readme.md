@@ -1,3 +1,4 @@
+Enable TTL on a DynamoDB Table
 ```
 aws dynamodb create-table \
     --table-name InstructionsTable \
