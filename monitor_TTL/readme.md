@@ -54,3 +54,24 @@ aws lambda create-event-source-mapping \
 
 ```
 
+```
+aws dynamodb put-item-policy \
+    --table-name <your-dynamodb-table-name> \
+    --policy '{
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": {
+                    "Service": "lambda.amazonaws.com"
+                },
+                "Action": [
+                    "dynamodb:GetItem",
+                    "dynamodb:PutItem",
+                    "dynamodb:DeleteItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:Query",
+                    "dynamodb:Scan"
+                ],
+                "Resource": "arn:aws:dynamodb:region:account-id:table/<your-dynamodb-table-name>",
+```
