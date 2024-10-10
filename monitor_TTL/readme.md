@@ -7,3 +7,9 @@ aws dynamodb create-table \
     --billing-mode PAY_PER_REQUEST \
     --stream-specification StreamEnabled=true,StreamViewType=OLD_IMAGE
 ```
+
+```
+aws dynamodb update-time-to-live \
+    --table-name InstructionsTable \
+    --time-to-live-specification "Enabled=true, AttributeName=expiration_time"
+```
