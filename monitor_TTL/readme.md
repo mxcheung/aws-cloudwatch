@@ -13,3 +13,7 @@ aws dynamodb update-time-to-live \
     --table-name InstructionsTable \
     --time-to-live-specification "Enabled=true, AttributeName=expiration_time"
 ```
+
+```
+aws sns create-topic --name InstructionTTLExpiry
+```
