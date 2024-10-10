@@ -17,3 +17,7 @@ aws dynamodb update-time-to-live \
 ```
 aws sns create-topic --name InstructionTTLExpiry
 ```
+
+```
+aws sns list-topics
+```
