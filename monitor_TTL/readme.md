@@ -21,3 +21,12 @@ aws sns create-topic --name InstructionTTLExpiry
 ```
 aws sns list-topics
 ```
+
+```
+aws sns subscribe \
+    --topic-arn arn:aws:sns:region:account-id:InstructionTTLExpiry \
+    --protocol email \
+    --notification-endpoint your-email@example.com
+```
+
+```
