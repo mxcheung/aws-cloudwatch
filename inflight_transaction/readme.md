@@ -14,6 +14,24 @@ aws cloudwatch put-metric-data \
     --unit Count
 ```
 
+
+```
+# Record a "Completed Transaction" metric
+aws cloudwatch put-metric-data \
+    --namespace "TransactionMetrics" \
+    --metric-name "CompletedTransactions" \
+    --value 1 \
+    --unit Count
+
+aws cloudwatch put-metric-data \
+    --namespace "TransactionMetrics" \
+    --metric-name "InFlightTransactions" \
+    --value -1 \
+    --unit Count
+```
+
+
+
 ```
 {
   "widgets": [
