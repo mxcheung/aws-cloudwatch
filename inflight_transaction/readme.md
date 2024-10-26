@@ -1,0 +1,33 @@
+
+
+```
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 0,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "region": "us-east-1",
+        "metrics": [
+          [ "TransactionMetrics", "IncomingTransactions", { "label": "Incoming Transactions", "stat": "Sum", "id": "m1" } ],
+          [ "TransactionMetrics", "CompletedTransactions", { "label": "Completed Transactions", "stat": "Sum", "id": "m2" } ],
+          [ "TransactionMetrics", "InFlightTransactions", { "label": "In-Flight Transactions", "stat": "Sum", "id": "m3" } ]
+        ],
+        "title": "Transaction Metrics Overview",
+        "period": 60,
+        "stat": "Sum",
+        "view": "timeSeries",
+        "stacked": false,
+        "yAxis": {
+          "left": {
+            "label": "Count"
+          }
+        }
+      }
+    }
+  ]
+}
+```
