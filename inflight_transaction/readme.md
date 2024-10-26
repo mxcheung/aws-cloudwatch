@@ -63,6 +63,7 @@ aws cloudwatch put-metric-data \
   ]
 }
 ```
+:%!jq 
 
 ```
 aws cloudwatch put-dashboard \
