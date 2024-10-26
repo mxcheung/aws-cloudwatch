@@ -1,0 +1,22 @@
+stored a single entry in dynamodb
+1) consumer load map
+2) add new entries in map
+3) remove   
+
+```
+  {
+  "id": {
+    "S": "1"
+  },
+  "pending_map": {
+    "M": {
+      "abc": {
+        "S": "1"
+      },
+      "def": {
+        "S": "2"
+      }
+    }
+  }
+}
+```
