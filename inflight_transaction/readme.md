@@ -63,3 +63,9 @@ aws cloudwatch put-metric-data \
   ]
 }
 ```
+
+```
+aws cloudwatch put-dashboard \
+    --dashboard-name TransactionMetricsDashboard \
+    --dashboard-body file://dashboard.json
+```
