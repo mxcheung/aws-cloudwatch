@@ -1,5 +1,12 @@
 
 ```
+# Record an "Incoming Transaction" metric
+aws cloudwatch put-metric-data \
+    --namespace "TransactionMetrics" \
+    --metric-name "IncomingTransactions" \
+    --value 1 \
+    --unit Count
+
 aws cloudwatch put-metric-data \
     --namespace "TransactionMetrics" \
     --metric-name "InFlightTransactions" \
