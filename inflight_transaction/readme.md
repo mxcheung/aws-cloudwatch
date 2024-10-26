@@ -1,4 +1,11 @@
 
+```
+aws cloudwatch put-metric-data \
+    --namespace "TransactionMetrics" \
+    --metric-name "InFlightTransactions" \
+    --value 1 \
+    --unit Count
+```
 
 ```
 {
