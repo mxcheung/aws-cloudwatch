@@ -1,3 +1,32 @@
+# metrics using ec2
+## ec
+
+```
+t3.small or t3.medium
+30 gb
+```
+
+
+## quick start
+
+https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#LaunchInstances:
+
+Instance Type:
+   - t3.medium
+
+Key pair (login) 
+   - MyKeyPair.pem
+
+Network settings
+  - Allow SSH traffic from
+  - Allow HTTPS traffic from the internet
+  - Allow HTTP traffic from the internet
+
+Configure storage
+  - 30gb
+```
+
+
 
 
 ```
