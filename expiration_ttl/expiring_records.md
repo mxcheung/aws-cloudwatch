@@ -8,3 +8,9 @@ aws dynamodb create-table \
     --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
     --stream-specification StreamEnabled=true,StreamViewType=KEYS_ONLY
 ```
+
+```
+aws dynamodb update-time-to-live \
+    --table-name ExpiringRecordsTable \
+    --time-to-live-specification "Enabled=true, AttributeName=expiry"
+```
