@@ -12,3 +12,5 @@ cd /home/ec2-user/aws-cloudwatch/expiration_ttl/iam
 cd /home/ec2-user/aws-cloudwatch/expiration_ttl/lambda
 . ./set_up.sh
 
+cd /home/ec2-user/aws-cloudwatch/expiration_ttl/data_load
+. ./set_up.sh
