@@ -8,7 +8,7 @@ t3.small or t3.medium
 ```
 ssh -i "MyKeyPair.pem" ec2-user@ec2-54-234-111-22.compute-1.amazonaws.com
 sudo yum -y install git
-git clone https://github.com/mxcheung/aws-rds.git
+git clone https://github.com/mxcheung/aws-cloudwatch.git
 cd /home/ec2-user/aws-rds/ec2-esg/
 . ./set_up.sh
 ```
