@@ -48,3 +48,14 @@ aws iam attach-role-policy \
     --role-name LambdaDynamoDBStreamRole \
     --policy-arn arn:aws:iam::aws:policy/CloudWatchFullAccess
 ```
+
+
+```
+aws lambda create-function \
+    --function-name CountExpiredRecords \
+    --runtime python3.9 \
+    --role arn:aws:iam::123456789012:role/LambdaDynamoDBStreamRole \
+    --handler lambda_function.lambda_handler \
+    --zip-file fileb://function.zip \
+    --environment Variables="{TABLE_NAME=ExpiringRecordsTable}"
+```
