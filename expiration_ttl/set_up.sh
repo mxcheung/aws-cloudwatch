@@ -17,4 +17,4 @@ cd /home/ec2-user/aws-cloudwatch/expiration_ttl/data_stream
 
 cd /home/ec2-user/aws-cloudwatch/expiration_ttl/data_load
 chmod +x dynamodb_dataload.sh
-. ./set_up.sh
+. ./parallel_nohup.sh
