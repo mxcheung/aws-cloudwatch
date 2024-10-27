@@ -2,7 +2,7 @@
 
 AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 
-
+zip function.zip lambda_function.py
 
 aws lambda create-function \
     --function-name CountExpiredRecords \
