@@ -10,3 +10,9 @@ aws dynamodb create-table \
 aws dynamodb update-time-to-live \
     --table-name ExpiringRecordsTable \
     --time-to-live-specification "Enabled=true, AttributeName=expiry"    
+
+
+# Increase the write capacity to a higher level, e.g., 1000 WriteCapacityUnits
+aws dynamodb update-table \
+    --table-name ExpiringRecordsTable \
+    --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=1000
