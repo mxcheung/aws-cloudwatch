@@ -5,8 +5,14 @@
 t3.small or t3.medium
 30 gb
 ```
-
-
+```
+ssh -i "MyKeyPair.pem" ec2-user@ec2-54-234-111-22.compute-1.amazonaws.com
+sudo yum -y install git
+git clone https://github.com/mxcheung/aws-rds.git
+cd /home/ec2-user/aws-rds/ec2-esg/
+. ./set_up.sh
+```
+```
 ## quick start
 
 https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#LaunchInstances:
