@@ -34,27 +34,12 @@ Configure storage
 
 
 
-```
-aws dynamodb create-table \
-    --table-name ExpiringRecordsTable \
-    --attribute-definitions AttributeName=id,AttributeType=S \
-    --key-schema AttributeName=id,KeyType=HASH \
-    --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
-    --stream-specification StreamEnabled=true,StreamViewType=KEYS_ONLY
-```
 
+## Test polling lambda
 ```
-aws dynamodb update-time-to-live \
-    --table-name ExpiringRecordsTable \
-    --time-to-live-specification "Enabled=true, AttributeName=expiry"
-```
-
-
-## Delayed Deletion Process
-```
-TTL deletions in DynamoDB are not immediate. The deletion process is managed asynchronously, 
-so there might be a delay of up to 48 hours after the TTL timestamp is reached. 
-The exact timing depends on system load and the maintenance schedule.
-While items won’t appear in queries or scans after expiration, 
-they may still exist physically in the table for a short time after the TTL timestamp.
+START RequestId: 95e93e12-b50e-4feb-bf38-0ec4b7018d0c Version: $LATEST
+[INFO]	2024-10-28T20:32:31.674Z	95e93e12-b50e-4feb-bf38-0ec4b7018d0c	Current expired count: 1994
+[INFO]	2024-10-28T20:32:31.920Z	95e93e12-b50e-4feb-bf38-0ec4b7018d0c	Published message to SNS: Threshold of 100 expired transactions met. Count: 1994
+END RequestId: 95e93e12-b50e-4feb-bf38-0ec4b7018d0c
+REPORT RequestId: 95e93e12-b50e-4feb-bf38-0ec4b7018d0c	Duration: 1644.99 ms	Billed Duration: 1645 ms	Memory Size: 128 MB	Max Memory Used: 82 MB	Init Duration: 443.72 ms
 ```
