@@ -5,7 +5,7 @@ aws dynamodb create-table \
     --attribute-definitions AttributeName=id,AttributeType=S \
     --key-schema AttributeName=id,KeyType=HASH \
     --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=1000 \
-    --stream-specification StreamEnabled=true,StreamViewType=KEYS_ONLY
+    --stream-specification StreamEnabled=true,StreamViewType=NEW_AND_OLD_IMAGES
 
 aws dynamodb update-time-to-live \
     --table-name ExpiringRecordsTable \
@@ -13,6 +13,6 @@ aws dynamodb update-time-to-live \
 
 
 # Increase the write capacity to a higher level, e.g., 1000 WriteCapacityUnits
-aws dynamodb update-table \
-    --table-name ExpiringRecordsTable \
-    --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=1000
+# aws dynamodb update-table \
+#    --table-name ExpiringRecordsTable \
+#    --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=1000
