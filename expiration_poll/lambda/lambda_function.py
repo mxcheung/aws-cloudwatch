@@ -22,26 +22,40 @@ def lambda_handler(event, context):
     current_time = int(time.time())
     expired_count = 0
 
-    # Query the GSI on expiry for items with expiry <= current_time
-    response = table.query(
-        IndexName=INDEX_NAME,
-        KeyConditionExpression=boto3.dynamodb.conditions.Key('status').eq('active') &
-                               boto3.dynamodb.conditions.Key('expiry').lte(current_time)
-    )
+    # Initialize the query parameters
+    query_params = {
+        'IndexName': INDEX_NAME,
+        'KeyConditionExpression': boto3.dynamodb.conditions.Key('status').eq('active') &
+                                  boto3.dynamodb.conditions.Key('expiry').lte(current_time)
+    }
 
-    expired_items = response.get('Items', [])
-    expired_count = len(expired_items)
+    # Paginate through results and count expired items until threshold is met
+    while True:
+        response = table.query(**query_params)
+        expired_items = response.get('Items', [])
+        expired_count += len(expired_items)
+        
+        # Log progress
+        logger.info(f"Current expired count: {expired_count}")
 
-    # Log the number of expired items
-    logger.info(f"Number of expired items: {expired_count}")
+        # Check if threshold is met
+        if expired_count >= EXPIRY_THRESHOLD:
+            # Publish message to SNS
+            message = f"Threshold of {EXPIRY_THRESHOLD} expired transactions met. Count: {expired_count}"
+            sns.publish(TopicArn=SNS_TOPIC_ARN, Message=message)
+            logger.info(f"Published message to SNS: {message}")
+            break
 
-    # Check if the expired item count meets the threshold
-    if expired_count >= EXPIRY_THRESHOLD:
-        # Publish message to SNS
-        message = f"Threshold of {EXPIRY_THRESHOLD} expired transactions met. Count: {expired_count}"
-        sns.publish(TopicArn=SNS_TOPIC_ARN, Message=message)
-        logger.info(f"Published message to SNS: {message}")
-    else:
-        logger.info(f"Threshold not met. Current expired count: {expired_count}")
+        # Check for pagination (if more items exist)
+        if 'LastEvaluatedKey' in response:
+            query_params['ExclusiveStartKey'] = response['LastEvaluatedKey']
+        else:
+            # No more items to retrieve
+            logger.info("No more items to retrieve.")
+            break
+
+    # Final log if threshold was not met
+    if expired_count < EXPIRY_THRESHOLD:
+        logger.info(f"Threshold not met. Total expired count: {expired_count}")
     
     return {"expired_count": expired_count}
