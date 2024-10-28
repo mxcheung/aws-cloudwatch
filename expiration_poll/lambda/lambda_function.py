@@ -3,50 +3,45 @@ import os
 import time
 import logging
 
+# Initialize clients
+dynamodb = boto3.resource('dynamodb')
+sns = boto3.client('sns')
+
+# Environment variables
+TABLE_NAME = os.environ['TABLE_NAME']
+INDEX_NAME = os.environ['INDEX_NAME']
+SNS_TOPIC_ARN = os.environ['SNS_TOPIC_ARN']
+EXPIRY_THRESHOLD = int(os.environ['EXPIRY_THRESHOLD'])
+
 # Set up logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-cloudwatch = boto3.client('cloudwatch')
-
 def lambda_handler(event, context):
-    expired_count = 0
+    table = dynamodb.Table(TABLE_NAME)
     current_time = int(time.time())
+    expired_count = 0
 
-    # Loop through each record in the event
-    for record in event['Records']:
-        # Check if the event is a REMOVE event and came from TTL expiration
-        if record['eventName'] == 'REMOVE' and 'OldImage' in record['dynamodb']:
-            if 'expiry' in record['dynamodb']['OldImage'] and record['userIdentity']['type'] == 'Service':
-                expiry_time = int(record['dynamodb']['OldImage']['expiry']['N'])
+    # Query the GSI on expiry for items with expiry <= current_time
+    response = table.query(
+        IndexName=INDEX_NAME,
+        KeyConditionExpression=boto3.dynamodb.conditions.Key('status').eq('active') &
+                               boto3.dynamodb.conditions.Key('expiry').lte(current_time)
+    )
 
-                # Check if the expiry timestamp is before or equal to the current time
-                if expiry_time <= current_time:
-                    expired_count += 1
-                else:
-                    # Log if the item was manually deleted before its expiry
-                    logger.info(f"Item manually deleted before expiry: {record['dynamodb']['OldImage']}")
-            else:
-                # Log if the item was manually deleted and had no expiry set
-                logger.info(f"Item manually deleted without expiry attribute: {record['dynamodb']['OldImage']}")
+    expired_items = response.get('Items', [])
+    expired_count = len(expired_items)
 
-    # Report the count of expired records to CloudWatch
-    if expired_count > 0:
-        cloudwatch.put_metric_data(
-            Namespace='DynamoDBExpiredRecords',
-            MetricData=[
-                {
-                    'MetricName': 'ExpiredRecordCount',
-                    'Dimensions': [
-                        {
-                            'Name': 'TableName',
-                            'Value': os.environ['TABLE_NAME']
-                        },
-                    ],
-                    'Value': expired_count,
-                    'Unit': 'Count'
-                },
-            ]
-        )
+    # Log the number of expired items
+    logger.info(f"Number of expired items: {expired_count}")
 
-    return {"status": "success", "expired_count": expired_count}
+    # Check if the expired item count meets the threshold
+    if expired_count >= EXPIRY_THRESHOLD:
+        # Publish message to SNS
+        message = f"Threshold of {EXPIRY_THRESHOLD} expired transactions met. Count: {expired_count}"
+        sns.publish(TopicArn=SNS_TOPIC_ARN, Message=message)
+        logger.info(f"Published message to SNS: {message}")
+    else:
+        logger.info(f"Threshold not met. Current expired count: {expired_count}")
+    
+    return {"expired_count": expired_count}
