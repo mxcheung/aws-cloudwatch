@@ -21,6 +21,7 @@ def lambda_handler(event, context):
     table = dynamodb.Table(TABLE_NAME)
     current_time = int(time.time())
     expired_count = 0
+    pagination_count = 0  # Initialize pagination counter
 
     # Initialize the query parameters
     query_params = {
@@ -48,7 +49,7 @@ def lambda_handler(event, context):
 
         # Check for pagination (if more items exist)
         if 'LastEvaluatedKey' in response:
-            logger.info("Fetch next page.")
+            pagination_count += 1  # Increment pagination count after each scan
             query_params['ExclusiveStartKey'] = response['LastEvaluatedKey']
         else:
             # No more items to retrieve
@@ -58,5 +59,7 @@ def lambda_handler(event, context):
     # Final log if threshold was not met
     if expired_count < EXPIRY_THRESHOLD:
         logger.info(f"Threshold not met. Total expired count: {expired_count}")
-    
+
+    logger.info(f'Total pagination requests made: {pagination_count}')
+
     return {"expired_count": expired_count}
