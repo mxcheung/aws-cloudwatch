@@ -49,9 +49,9 @@ REPORT RequestId: 95e93e12-b50e-4feb-bf38-0ec4b7018d0c	Duration: 1644.99 ms	Bill
 ## Get live count
 ```
 Item count
-5,500
+10,450
 Scan status
 Complete
 Last updated
-October 29, 2024 07:35:53
+October 29, 2024 07:39:39
 ```
