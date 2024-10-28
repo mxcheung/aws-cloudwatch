@@ -4,6 +4,9 @@ AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 
 zip function.zip lambda_function.py
 
+# Wait for the IAM role to be created
+aws iam wait role-exists --role-name LambdaDynamoDBStreamRole
+
 aws lambda create-function \
     --function-name CountExpiredRecords \
     --runtime python3.9 \
