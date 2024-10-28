@@ -48,6 +48,7 @@ def lambda_handler(event, context):
 
         # Check for pagination (if more items exist)
         if 'LastEvaluatedKey' in response:
+            logger.info("Fetch next page.")
             query_params['ExclusiveStartKey'] = response['LastEvaluatedKey']
         else:
             # No more items to retrieve
