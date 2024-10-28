@@ -17,6 +17,10 @@ aws iam wait role-exists --role-name LambdaDynamoDBStreamRole
 
 export LAMBDA_ROLE_ARN=$(aws iam get-role --role-name $LAMBDA_ROLE_NAME --query 'Role.Arn' --output text)
 
+export SNS_TOPIC_ARN=$(aws sns list-topics --query "Topics[?ends_with(TopicArn, ':$SNS_TOPIC_NAME')].TopicArn" --output text)
+echo "SNS Topic ARN: $SNS_TOPIC_ARN"
+
+
 aws lambda create-function \
     --function-name $LAMBDA_FUNCTION_NAME \
     --zip-file fileb://function.zip \
