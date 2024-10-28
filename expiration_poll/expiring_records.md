@@ -36,10 +36,22 @@ Configure storage
 
 
 ## Test polling lambda
+only scan until threshold exceeded
 ```
 START RequestId: 95e93e12-b50e-4feb-bf38-0ec4b7018d0c Version: $LATEST
 [INFO]	2024-10-28T20:32:31.674Z	95e93e12-b50e-4feb-bf38-0ec4b7018d0c	Current expired count: 1994
 [INFO]	2024-10-28T20:32:31.920Z	95e93e12-b50e-4feb-bf38-0ec4b7018d0c	Published message to SNS: Threshold of 100 expired transactions met. Count: 1994
 END RequestId: 95e93e12-b50e-4feb-bf38-0ec4b7018d0c
 REPORT RequestId: 95e93e12-b50e-4feb-bf38-0ec4b7018d0c	Duration: 1644.99 ms	Billed Duration: 1645 ms	Memory Size: 128 MB	Max Memory Used: 82 MB	Init Duration: 443.72 ms
+```
+
+
+## Get live count
+```
+Item count
+5,500
+Scan status
+Complete
+Last updated
+October 29, 2024 07:35:53
 ```
