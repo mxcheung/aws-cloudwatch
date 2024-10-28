@@ -17,5 +17,5 @@ cd /home/ec2-user/aws-cloudwatch/expiration_poll/lambda
 
 
 cd /home/ec2-user/aws-cloudwatch/expiration_poll/data_load
-chmod +x load_data.sh
-. ./load_data.sh
+chmod +x data_loader.sh start_load.sh
+. ./start_load.sh
