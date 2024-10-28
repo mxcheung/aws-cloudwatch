@@ -17,5 +17,5 @@ cd /home/ec2-user/aws-cloudwatch/expiration_poll/lambda
 
 
 cd /home/ec2-user/aws-cloudwatch/expiration_poll/data_load
-chmod +x dynamodb_dataload.sh
-. ./parallel_nohup.sh
+chmod +x load_data.sh
+. ./load_data.sh
