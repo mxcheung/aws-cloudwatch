@@ -2,9 +2,12 @@
 
 STREAM_ARN=$(aws dynamodb describe-table --table-name ExpiringRecordsTable --query "Table.LatestStreamArn" --output text)
 
-# Step 2: Wait for the Lambda function to be created
+echo "Wait for the Lambda function to be created" 
+
+# Wait for the Lambda function to be created
 aws lambda wait function-exists --function-name CountExpiredRecords
 
+echo "aws lambda create-event-source-mapping" 
 
 aws lambda create-event-source-mapping \
     --function-name CountExpiredRecords \
