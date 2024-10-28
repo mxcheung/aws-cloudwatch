@@ -1,5 +1,12 @@
 #!/bin/bash
 
+export TABLE_NAME="ExpiringRecordsTable"
+export INDEX_NAME="ExpiryIndex"
+export SNS_TOPIC_NAME="ExpiryAlertTopic"
+export LAMBDA_FUNCTION_NAME="CheckExpiredRecordsFunction"
+export LAMBDA_ROLE_NAME="LambdaDynamoDBAccessRole"
+export EXPIRY_THRESHOLD=100  # Set your threshold value here
+
 
 aws dynamodb create-table \
     --table-name ExpiringRecordsTable \
