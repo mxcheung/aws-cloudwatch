@@ -51,8 +51,10 @@ aws dynamodb update-time-to-live \
 
 
 ## Delayed Deletion Process
+```
 TTL deletions in DynamoDB are not immediate. The deletion process is managed asynchronously, 
 so there might be a delay of up to 48 hours after the TTL timestamp is reached. 
 The exact timing depends on system load and the maintenance schedule.
 While items won’t appear in queries or scans after expiration, 
 they may still exist physically in the table for a short time after the TTL timestamp.
+```
