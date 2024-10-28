@@ -13,7 +13,7 @@ AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 zip function.zip lambda_function.py
 
 # Wait for the IAM role to be created
-aws iam wait role-exists --role-name LambdaDynamoDBStreamRole
+aws iam wait role-exists --role-name LambdaDynamoDBAccessRole
 
 export LAMBDA_ROLE_ARN=$(aws iam get-role --role-name $LAMBDA_ROLE_NAME --query 'Role.Arn' --output text)
 
