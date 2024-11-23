@@ -5,7 +5,13 @@
     --namespace "CustomNamespace" \
     --metric-name "MetricCount" \
     --value 1 \
-    --dimensions "Regions=EMEA"
+    --dimensions "Region=EMEA"
+
+ aws cloudwatch put-metric-data \
+    --namespace "CustomNamespace" \
+    --metric-name "MetricCount" \
+    --value 1 \
+    --dimensions "MessageType=Electronic"
 
  aws cloudwatch put-metric-data \
     --namespace "CustomNamespace" \
