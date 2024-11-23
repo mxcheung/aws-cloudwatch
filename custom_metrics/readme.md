@@ -9,6 +9,6 @@ https://github.com/MoonKraken/youtube/blob/main/CloudWatchMetricsLightningTutori
 {
   "color": "green",
   "country": "United States",
-  "num_purhased": "1"
+  "num_purchased": "1"
 }
 ```
