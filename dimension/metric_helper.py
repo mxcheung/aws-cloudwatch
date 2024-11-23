@@ -128,3 +128,32 @@ def _get_dimensions(**kwargs) -> List[Dict]:
     Convert keyword arguments into CloudWatch dimensions.
     """
     return [{"Name": key, "Value": str(value)} for key, value in kwargs.items()]
+
+def _create_metric(metric_name: str, dimensions: List[Dict[str, str]], unit: str, value: float) -> Dict:
+    """
+    Helper function to create a metric dictionary.
+    """
+    return {
+        'MetricName': metric_name,
+        'Dimensions': dimensions,
+        'Unit': unit,
+        'Value': value,
+    }
+
+
+# Refactored metric_data
+metric_data = [
+    _create_metric(
+        metric_name='MessageCount',
+        dimensions=_get_dimensions(MessageType=message_type),
+        unit='Count',
+        value=1.0
+    ),
+    _create_metric(
+        metric_name='Instructions',
+        dimensions=_get_dimensions(Region=instruction.metadata.region),
+        unit='Count',
+        value=1.0
+    ),
+]
+
