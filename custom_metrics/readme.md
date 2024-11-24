@@ -18,3 +18,12 @@ https://github.com/MoonKraken/youtube/blob/main/CloudWatchMetricsLightningTutori
 | ------------- | ------------- |
 | Content Cell  | Content Cell  |
 | Content Cell  | Content Cell  |
+
+
+
+| Metric Namee  | Second Header |
+| ------------- | ------------- |
+| IncomingCount  | 3  |
+| SuccessCount  | 2  |
+| ErrorCount  | 1  |
+| Duration  | 13  |
