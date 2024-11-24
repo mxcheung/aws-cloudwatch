@@ -22,7 +22,7 @@ https://github.com/MoonKraken/youtube/blob/main/CloudWatchMetricsLightningTutori
 
 
 
-| Metric Namee  | Second Header |
+| Metric Name  | Second Header |
 | ------------- | ------------- |
 | IncomingCount  | 3  |
 | SuccessCount  | 2  |
