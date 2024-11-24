@@ -31,8 +31,8 @@
             "properties": {
                 "metrics": [
                     [ { "expression": "SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"SuccessCount\" ', 'Sum')", "label": "SuccessCount", "id": "e1", "region": "us-east-1", "visible": false } ],
-                    [ { "expression": "SUM(e1)", "label": "Total SuccessCount", "id": "e3", "region": "us-east-1", "color": "#2ca02c" } ],
                     [ { "expression": "SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"ErrorCount\" ', 'Sum')", "label": "ErrorCount", "id": "e2", "visible": false, "region": "us-east-1" } ],
+                    [ { "expression": "SUM(e1)", "label": "Total SuccessCount", "id": "e3", "region": "us-east-1", "color": "#2ca02c" } ],
                     [ { "expression": "SUM(e2)", "label": "Total ErrorCount", "id": "e4", "region": "us-east-1" } ]
                 ],
                 "view": "timeSeries",
@@ -53,8 +53,8 @@
                 "metrics": [
                     [ { "expression": "FILL(SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"Duration\" ', 'Average'),REPEAT)", "label": "Avg Duration", "id": "e2", "region": "us-east-1", "visible": false } ],
                     [ { "expression": "MAX(e2)", "label": "Max Duration ALL", "id": "e1", "region": "us-east-1", "color": "#d62728" } ],
-                    [ { "expression": "MIN(e2)", "label": "Min Duration ALL", "id": "e3", "region": "us-east-1" } ],
-                    [ { "expression": "AVG(e2)", "label": "Average Duration ALL", "id": "e4", "region": "us-east-1", "color": "#ffbb78" } ]
+                    [ { "expression": "AVG(e2)", "label": "Average Duration ALL", "id": "e4", "region": "us-east-1", "color": "#ffbb78" } ],
+                    [ { "expression": "MIN(e2)", "label": "Min Duration ALL", "id": "e3", "region": "us-east-1" } ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,
