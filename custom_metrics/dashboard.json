@@ -8,8 +8,8 @@
             "type": "metric",
             "properties": {
                 "metrics": [
-                    [ { "expression": "SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"IncomingCount\" ', 'Sum')", "label": "Total instructions", "id": "e1", "region": "us-east-1", "visible": false } ],
-                    [ { "expression": "SUM(e1)", "label": "Total all", "id": "e2" } ]
+                    [ { "expression": "SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"IncomingCount\" ', 'Sum')", "label": "instruction", "id": "e1", "region": "us-east-1", "visible": false } ],
+                    [ { "expression": "SUM(e1)", "label": "Total", "id": "e2", "region": "us-east-1" } ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,
@@ -27,8 +27,10 @@
             "type": "metric",
             "properties": {
                 "metrics": [
-                    [ { "expression": "SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"SuccessCount\" ', 'Sum')", "label": "Ack", "id": "e1", "region": "us-east-1" } ],
-                    [ { "expression": "SUM(e1)", "label": "Total all", "id": "e3", "region": "us-east-1" } ]
+                    [ { "expression": "SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"SuccessCount\" ', 'Sum')", "label": "SuccessCount", "id": "e1", "region": "us-east-1", "visible": false } ],
+                    [ { "expression": "SUM(e1)", "label": "Total SuccessCount", "id": "e3", "region": "us-east-1" } ],
+                    [ { "expression": "SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"ErrorCount\" ', 'Sum')", "label": "ErrorCount", "id": "e2", "visible": false } ],
+                    [ { "expression": "SUM(e2)", "label": "Total ErrorCount", "id": "e4" } ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,
