@@ -1,0 +1,57 @@
+{
+    "widgets": [
+        {
+            "height": 8,
+            "width": 19,
+            "y": 0,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ { "expression": "SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"IncomingCount\" ', 'Sum')", "label": "Total instructions", "id": "e1", "region": "us-east-1" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-east-1",
+                "stat": "Sum",
+                "title": "IncomingCount - Sum of All (Math Expression)",
+                "period": 300
+            }
+        },
+        {
+            "height": 6,
+            "width": 12,
+            "y": 8,
+            "x": 12,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "CustomMetrics", "SuccessCount" ],
+                    [ "CustomMetrics", "ErrorCount" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-east-1",
+                "stat": "Sum",
+                "title": "SuccessCount and ErrorCount - Sum of All"
+            }
+        },
+        {
+            "height": 6,
+            "width": 24,
+            "y": 14,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "CustomMetrics", "Duration" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-east-1",
+                "stat": "Average",
+                "title": "Duration - Average of All"
+            }
+        }
+    ]
+}
