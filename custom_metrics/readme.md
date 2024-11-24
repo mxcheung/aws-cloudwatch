@@ -73,3 +73,64 @@ aws create dashboard
 2nd panel SuccessCount    sum of all
 3rd panel Duration        average of all
 ```
+
+
+```
+aws cloudwatch put-dashboard \
+    --dashboard-name "CustomMetricsDashboard" \
+    --dashboard-body '{
+        "widgets": [
+            {
+                "type": "metric",
+                "x": 0,
+                "y": 0,
+                "width": 12,
+                "height": 6,
+                "properties": {
+                    "metrics": [
+                        [ "CustomMetrics", "IncomingCount" ]
+                    ],
+                    "view": "timeSeries",
+                    "stacked": false,
+                    "region": "us-east-1",
+                    "stat": "Sum",
+                    "title": "IncomingCount - Sum of All"
+                }
+            },
+            {
+                "type": "metric",
+                "x": 12,
+                "y": 0,
+                "width": 12,
+                "height": 6,
+                "properties": {
+                    "metrics": [
+                        [ "CustomMetrics", "SuccessCount" ]
+                    ],
+                    "view": "timeSeries",
+                    "stacked": false,
+                    "region": "us-east-1",
+                    "stat": "Sum",
+                    "title": "SuccessCount - Sum of All"
+                }
+            },
+            {
+                "type": "metric",
+                "x": 0,
+                "y": 6,
+                "width": 24,
+                "height": 6,
+                "properties": {
+                    "metrics": [
+                        [ "CustomMetrics", "Duration" ]
+                    ],
+                    "view": "timeSeries",
+                    "stacked": false,
+                    "region": "us-east-1",
+                    "stat": "Average",
+                    "title": "Duration - Average of All"
+                }
+            }
+        ]
+    }'
+```
