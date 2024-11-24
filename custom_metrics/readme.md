@@ -13,6 +13,7 @@ https://github.com/MoonKraken/youtube/blob/main/CloudWatchMetricsLightningTutori
 }
 ```
 
+Dimensions
 
 | Color  | Country |
 | ------------- | ------------- |
