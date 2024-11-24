@@ -16,7 +16,10 @@
                 "region": "us-east-1",
                 "stat": "Sum",
                 "title": "IncomingCount - Sum of All (Math Expression)",
-                "period": 300
+                "period": 300,
+                "legend": {
+                    "position": "bottom"
+                }
             }
         },
         {
@@ -48,10 +51,10 @@
             "type": "metric",
             "properties": {
                 "metrics": [
-                    [ { "expression": "REMOVE_EMPTY(SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"Duration\" ', 'Average'))", "label": "Avg Duration", "id": "e2", "region": "us-east-1" } ],
-                    [ { "expression": "MAX(REMOVE_EMPTY(e2))", "label": "Max Duration ALL", "id": "e1", "region": "us-east-1" } ],
-                    [ { "expression": "MIN(REMOVE_EMPTY(e2))", "label": "Min Duration ALL", "id": "e3", "region": "us-east-1" } ],
-                    [ { "expression": "AVG(REMOVE_EMPTY(e2))", "label": "AVG Duration ALL", "id": "e4", "region": "us-east-1" } ]
+                    [ { "expression": "FILL(SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"Duration\" ', 'Average'),REPEAT)", "label": "Avg Duration", "id": "e2", "region": "us-east-1", "visible": false } ],
+                    [ { "expression": "MAX(e2)", "label": "Max Duration ALL", "id": "e1", "region": "us-east-1", "color": "#d62728" } ],
+                    [ { "expression": "MIN(e2)", "label": "Min Duration ALL", "id": "e3", "region": "us-east-1" } ],
+                    [ { "expression": "AVG(e2)", "label": "Average Duration ALL", "id": "e4", "region": "us-east-1", "color": "#ffbb78" } ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,
