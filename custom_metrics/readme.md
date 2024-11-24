@@ -65,3 +65,11 @@ aws cloudwatch put-metric-data \
         }
     ]'
 ```
+
+
+```
+aws create dashboard
+1st panel IncomingCount   sum of all
+2nd panel SuccessCount    sum of all
+3rd panel Duration        average of all
+```
