@@ -37,9 +37,10 @@ aws cloudwatch put-metric-data \
     --metric-data '
     [
         {
-            "MetricName": "Color",
+            "MetricName": "IncomingCount",
             "Dimensions": [
-                {"Name": "Country", "Value": "United States"}
+                {"Name": "Country", "Value": "United States"},
+                {"Name": "Colour", "Value": "Green"}
             ],
             "Value": 1,
             "Unit": "Count"
@@ -47,7 +48,8 @@ aws cloudwatch put-metric-data \
         {
             "MetricName": "SuccessCount",
             "Dimensions": [
-                {"Name": "Country", "Value": "United States"}
+                {"Name": "Country", "Value": "United States"},
+                {"Name": "Colour", "Value": "Green"}
             ],
             "Value": 1,
             "Unit": "Count"
@@ -55,11 +57,11 @@ aws cloudwatch put-metric-data \
         {
             "MetricName": "Duration",
             "Dimensions": [
-                {"Name": "Country", "Value": "United States"}
+                {"Name": "Country", "Value": "United States"},
+                {"Name": "Colour", "Value": "Green"}
             ],
             "Value": 13,
             "Unit": "Seconds"
         }
     ]'
-
 ```
