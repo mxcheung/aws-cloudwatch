@@ -154,3 +154,21 @@ aws cloudwatch put-dashboard \
 }
 [cloudshell-user@ip-10-130-67-11 ~]$
 ```
+
+
+```
+[cloudshell-user@ip-10-130-67-11 ~]$ aws cloudwatch get-metric-statistics --metric-name Duration --start-time 2024-11-01T00:00:00Z --end-time 2024-11-25T00:00:00Z --period 3600 --namespace CustomMetrics --statistics Average Minimum Maximum --dimensions Name=Colour,Value=Green Name=Country,Value="United States"
+
+{
+    "Label": "Duration",
+    "Datapoints": [
+        {
+            "Timestamp": "2024-11-24T03:00:00+00:00",
+            "Average": 18.0,
+            "Minimum": 13.0,
+            "Maximum": 23.0,
+            "Unit": "Seconds"
+        }
+    ]
+}
+```
