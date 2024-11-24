@@ -14,10 +14,11 @@ https://github.com/MoonKraken/youtube/blob/main/CloudWatchMetricsLightningTutori
 ```
 
 
-| First Header  | Second Header |
+| Color  | Country |
 | ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+| green  | United States  |
+| blue  | United States  |
+
 
 
 
