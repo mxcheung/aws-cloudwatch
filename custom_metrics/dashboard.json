@@ -1,14 +1,15 @@
 {
     "widgets": [
         {
-            "height": 8,
-            "width": 19,
+            "height": 6,
+            "width": 12,
             "y": 0,
             "x": 0,
             "type": "metric",
             "properties": {
                 "metrics": [
-                    [ { "expression": "SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"IncomingCount\" ', 'Sum')", "label": "Total instructions", "id": "e1", "region": "us-east-1" } ]
+                    [ { "expression": "SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"IncomingCount\" ', 'Sum')", "label": "Total instructions", "id": "e1", "region": "us-east-1", "visible": false } ],
+                    [ { "expression": "SUM(e1)", "label": "Total all", "id": "e2" } ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,
@@ -21,25 +22,26 @@
         {
             "height": 6,
             "width": 12,
-            "y": 8,
+            "y": 0,
             "x": 12,
             "type": "metric",
             "properties": {
                 "metrics": [
-                    [ "CustomMetrics", "SuccessCount" ],
-                    [ "CustomMetrics", "ErrorCount" ]
+                    [ { "expression": "SEARCH(' Namespace=\"CustomMetrics\"  MetricName=\"SuccessCount\" ', 'Sum')", "label": "Ack", "id": "e1", "region": "us-east-1" } ],
+                    [ { "expression": "SUM(e1)", "label": "Total all", "id": "e3", "region": "us-east-1" } ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,
                 "region": "us-east-1",
                 "stat": "Sum",
-                "title": "SuccessCount and ErrorCount - Sum of All"
+                "title": "SuccessCount and ErrorCount - Sum of All",
+                "period": 300
             }
         },
         {
             "height": 6,
             "width": 24,
-            "y": 14,
+            "y": 6,
             "x": 0,
             "type": "metric",
             "properties": {
