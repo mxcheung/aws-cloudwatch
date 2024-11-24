@@ -12,3 +12,9 @@ https://github.com/MoonKraken/youtube/blob/main/CloudWatchMetricsLightningTutori
   "num_purchased": "1"
 }
 ```
+
+
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
