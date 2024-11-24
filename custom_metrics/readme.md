@@ -105,13 +105,14 @@ aws cloudwatch put-dashboard \
                 "height": 6,
                 "properties": {
                     "metrics": [
-                        [ "CustomMetrics", "SuccessCount" ]
+                        [ "CustomMetrics", "SuccessCount" ],
+                        [ "CustomMetrics", "ErrorCount" ]
                     ],
                     "view": "timeSeries",
                     "stacked": false,
                     "region": "us-east-1",
                     "stat": "Sum",
-                    "title": "SuccessCount - Sum of All"
+                    "title": "SuccessCount and ErrorCount - Sum of All"
                 }
             },
             {
