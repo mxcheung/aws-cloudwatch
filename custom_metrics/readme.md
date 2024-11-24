@@ -28,3 +28,38 @@ https://github.com/MoonKraken/youtube/blob/main/CloudWatchMetricsLightningTutori
 | SuccessCount  | 2  |
 | ErrorCount  | 1  |
 | Duration  | 13  |
+
+
+
+```
+aws cloudwatch put-metric-data \
+    --namespace "CustomMetrics" \
+    --metric-data '
+    [
+        {
+            "MetricName": "Color",
+            "Dimensions": [
+                {"Name": "Country", "Value": "United States"}
+            ],
+            "Value": 1,
+            "Unit": "Count"
+        },
+        {
+            "MetricName": "SuccessCount",
+            "Dimensions": [
+                {"Name": "Country", "Value": "United States"}
+            ],
+            "Value": 1,
+            "Unit": "Count"
+        },
+        {
+            "MetricName": "Duration",
+            "Dimensions": [
+                {"Name": "Country", "Value": "United States"}
+            ],
+            "Value": 13,
+            "Unit": "Seconds"
+        }
+    ]'
+
+```
