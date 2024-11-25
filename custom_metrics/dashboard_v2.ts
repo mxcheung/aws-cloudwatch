@@ -7,7 +7,7 @@ export class CloudWatchDashboardStack extends cdk.Stack {
     super(scope, id, props);
 
     // Define SEARCH expressions and corresponding metrics
-    const messageCountExpression = `SEARCH('Namespace="MessagingProcessing" MetricName="MessageCount" TOPIC="INSTRUCTION_TOPIC"', 'Sum')`;
+    const messageCountExpression = `SEARCH('Namespace="MessagingProcessing" MetricName="MessageCount" TOPIC="TRANSACTION_TOPIC"', 'Sum')`;
     const messageCountMetric = new cloudwatch.MathExpression({
       expression: messageCountExpression,
       usingMetrics: {},
