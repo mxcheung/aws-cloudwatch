@@ -6,59 +6,92 @@ export class CloudWatchDashboardStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // Metrics
-    const messageCountMetric = cloudwatch.Metric.expression(
-      "SEARCH('Namespace=\"MessagingProcessing\" MetricName=\"MessageCount\" TOPIC=\"INSTRUCTION_TOPIC\"', 'Sum')",
-      { label: "MessageCount BY Region and MsgType", id: 'e1', region: 'eu-central-1' }
-    );
+    // Define SEARCH expressions and corresponding metrics
+    const messageCountExpression = `SEARCH('Namespace="MessagingProcessing" MetricName="MessageCount" TOPIC="INSTRUCTION_TOPIC"', 'Sum')`;
+    const messageCountMetric = new cloudwatch.MathExpression({
+      expression: messageCountExpression,
+      usingMetrics: {},
+      period: cdk.Duration.minutes(15),
+      label: 'MessageCount BY Region and MsgType',
+    });
 
-    const messageCountSumMetric = cloudwatch.Metric.expression(
-      'SUM(e1)',
-      { label: 'MessageCount', id: 'e2', color: '#1f77b4', region: 'eu-central-1' }
-    );
+    const messageCountSumExpression = `SUM(e1)`;
+    const messageCountSumMetric = new cloudwatch.MathExpression({
+      expression: messageCountSumExpression,
+      usingMetrics: { e1: messageCountMetric },
+      period: cdk.Duration.minutes(15),
+      label: 'MessageCount',
+      color: '#1f77b4',
+    });
 
-    const durationMetrics = [
-      cloudwatch.Metric.expression(
-        "FILL(SEARCH('Namespace=\"MessagingProcessing\" MetricName=\"InstructionProcessingTime\"', 'Sum'), REPEAT)",
-        { label: 'Duration', id: 'e1', region: 'eu-central-1' }
-      ),
-      cloudwatch.Metric.expression(
-        'MAX(e1)',
-        { label: 'Duration Maximum', id: 'e2', color: '#d62728', region: 'eu-central-1' }
-      ),
-      cloudwatch.Metric.expression(
-        'MIN(e1)',
-        { label: 'Duration Minimum', id: 'e3', region: 'eu-central-1' }
-      ),
-      cloudwatch.Metric.expression(
-        'AVG(e1)',
-        { label: 'Duration Average', id: 'e4', color: '#e377c2', region: 'eu-central-1' }
-      ),
-      cloudwatch.Metric.expression(
-        '(e2 + e3) / 2',
-        { label: 'Duration Midpoint', id: 'e5', color: '#ff7f0e', region: 'eu-central-1' }
-      ),
-    ];
+    const durationExpression = `FILL(SEARCH('Namespace="MessagingProcessing" MetricName="InstructionProcessingTime"', 'Sum'), REPEAT)`;
+    const durationMetric = new cloudwatch.MathExpression({
+      expression: durationExpression,
+      usingMetrics: {},
+      period: cdk.Duration.minutes(15),
+      label: 'Duration',
+    });
 
-    const ackMetric = cloudwatch.Metric.expression(
-      "SEARCH('Namespace=\"MessagingProcessing\" MetricName=\"ACK\"', 'Sum')",
-      { label: 'SuccessCount by Region and MessageType', id: 'e1', region: 'eu-central-1' }
-    );
+    const durationMaxMetric = new cloudwatch.MathExpression({
+      expression: `MAX(e1)`,
+      usingMetrics: { e1: durationMetric },
+      period: cdk.Duration.minutes(15),
+      label: 'Duration Maximum',
+      color: '#d62728',
+    });
 
-    const nackMetric = cloudwatch.Metric.expression(
-      "SEARCH('Namespace=\"MessagingProcessing\" MetricName=\"NACK\"', 'Sum')",
-      { label: 'ErrorCount by Region and MessageType', id: 'e2', region: 'eu-central-1' }
-    );
+    const durationMinMetric = new cloudwatch.MathExpression({
+      expression: `MIN(e1)`,
+      usingMetrics: { e1: durationMetric },
+      period: cdk.Duration.minutes(15),
+      label: 'Duration Minimum',
+    });
 
-    const ackSumMetric = cloudwatch.Metric.expression(
-      'SUM(e1)',
-      { label: 'Acks', id: 'e3', region: 'eu-central-1' }
-    );
+    const durationAvgMetric = new cloudwatch.MathExpression({
+      expression: `AVG(e1)`,
+      usingMetrics: { e1: durationMetric },
+      period: cdk.Duration.minutes(15),
+      label: 'Duration Average',
+      color: '#e377c2',
+    });
 
-    const nackSumMetric = cloudwatch.Metric.expression(
-      'SUM(e2)',
-      { label: 'Nacks', id: 'e4', region: 'eu-central-1' }
-    );
+    const durationMidpointMetric = new cloudwatch.MathExpression({
+      expression: `(e2 + e3) / 2`,
+      usingMetrics: { e2: durationMaxMetric, e3: durationMinMetric },
+      period: cdk.Duration.minutes(15),
+      label: 'Duration Midpoint',
+      color: '#ff7f0e',
+    });
+
+    const ackExpression = `SEARCH('Namespace="MessagingProcessing" MetricName="ACK"', 'Sum')`;
+    const ackMetric = new cloudwatch.MathExpression({
+      expression: ackExpression,
+      usingMetrics: {},
+      period: cdk.Duration.minutes(15),
+      label: 'SuccessCount by Region and MessageType',
+    });
+
+    const nackExpression = `SEARCH('Namespace="MessagingProcessing" MetricName="NACK"', 'Sum')`;
+    const nackMetric = new cloudwatch.MathExpression({
+      expression: nackExpression,
+      usingMetrics: {},
+      period: cdk.Duration.minutes(15),
+      label: 'ErrorCount by Region and MessageType',
+    });
+
+    const ackSumMetric = new cloudwatch.MathExpression({
+      expression: `SUM(e1)`,
+      usingMetrics: { e1: ackMetric },
+      period: cdk.Duration.minutes(15),
+      label: 'Acks',
+    });
+
+    const nackSumMetric = new cloudwatch.MathExpression({
+      expression: `SUM(e1)`,
+      usingMetrics: { e1: nackMetric },
+      period: cdk.Duration.minutes(15),
+      label: 'Nacks',
+    });
 
     // Widgets
     const graphWidgetMessageCount = new cloudwatch.GraphWidget({
@@ -73,7 +106,7 @@ export class CloudWatchDashboardStack extends cdk.Stack {
     const graphWidgetDuration = new cloudwatch.GraphWidget({
       title: 'Duration',
       view: cloudwatch.GraphWidgetView.TIME_SERIES,
-      left: durationMetrics,
+      left: [durationMetric, durationMaxMetric, durationMinMetric, durationAvgMetric, durationMidpointMetric],
       width: 14,
       height: 6,
     });
