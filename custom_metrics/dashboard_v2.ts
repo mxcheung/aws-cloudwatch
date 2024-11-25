@@ -2,6 +2,17 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { CfnDashboard } from 'aws-cdk-lib/aws-cloudwatch';
 
+
+        const graphWidgetTimeSeries = new GraphWidget({
+            title: ' Average Processing time  (Time Series)',
+            view: cloudwatch.GraphWidgetView.TIME_SERIES,
+            left: time_metrics, // Left Y-axis metrics
+            width: 12,
+            height: 6
+        });
+
+
+
 export class CloudWatchDashboardStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
