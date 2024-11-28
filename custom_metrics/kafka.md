@@ -5,6 +5,10 @@ Topic: topic1, Partition: 1, Offset: 250
 ```
 
 ```
+Failed to list test-consumer-group: KafkaError{code=GROUP_AUTHORIZATION_FAILED,val=30,str="LISTCONSUMERGROUPOFFSETS worker coordinator request failed: Broker: Group authorization failed"}
+```
+
+```
 import unittest
 from unittest.mock import MagicMock, patch
 from confluent_kafka.admin import AdminClient, ConsumerGroupTopicPartitions, TopicPartition, KafkaException
