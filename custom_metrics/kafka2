@@ -1,46 +1,36 @@
-from kafka import KafkaConsumer, KafkaAdminClient
-from kafka.admin import KafkaAdminClient, NewTopic
-from kafka.errors import KafkaError
-import logging
+from confluent_kafka.admin import AdminClient
+from confluent_kafka import KafkaException
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Confluent Cloud configuration
+conf = {
+    'bootstrap.servers': '<YOUR_BOOTSTRAP_SERVER>',
+    'sasl.mechanism': 'PLAIN',
+    'security.protocol': 'SASL_SSL',
+    'sasl.username': '<YOUR_API_KEY>',
+    'sasl.password': '<YOUR_API_SECRET>'
+}
 
-# Kafka configuration
-KAFKA_BROKER = 'localhost:9092'  # Update with your Kafka broker address
-TOPIC_NAME = 'your_topic_name'   # Update with your Kafka topic name
-
-def list_consumer_groups(admin_client):
-    """List all consumer groups."""
-    return admin_client.list_consumer_groups()
-
-def get_offsets(admin_client, consumer_group, topic):
-    """Get the offsets for a specific consumer group and topic."""
+def get_consumer_group_offsets(consumer_group_id):
     try:
-        offsets = admin_client.list_consumer_group_offsets(consumer_group)
-        return {tp: offset.offset for tp, offset in offsets.items() if tp.topic == topic}
-    except KafkaError as e:
-        logger.error(f"Error fetching offsets for group {consumer_group}: {e}")
-        return {}
+        admin_client = AdminClient(conf)
+        consumer_group_metadata = admin_client.list_consumer_groups(group=consumer_group_id, timeout=10)
 
-def main():
-    # Create a Kafka admin client
-    admin_client = KafkaAdminClient(bootstrap_servers=KAFKA_BROKER)
-    
-    # List all consumer groups
-    consumer_groups = list_consumer_groups(admin_client)
-    logger.info(f"Consumer groups found: {consumer_groups}")
-    
-    # Log offsets for each consumer group for the specific topic
-    for group, _ in consumer_groups:
-        offsets = get_offsets(admin_client, group, TOPIC_NAME)
-        if offsets:
-            logger.info(f"Offsets for consumer group '{group}' on topic '{TOPIC_NAME}':")
-            for partition, offset in offsets.items():
-                logger.info(f"    Partition {partition.partition}: Offset {offset}")
-        else:
-            logger.info(f"No offsets found for consumer group '{group}' on topic '{TOPIC_NAME}'.")
+        if not consumer_group_metadata:
+            print(f"Consumer group {consumer_group_id} not found.")
+            return
 
-if __name__ == "__main__":
-    main()
+        for group_metadata in consumer_group_metadata:
+            print(f"Consumer Group: {group_metadata.group}")
+            offsets = admin_client.list_consumer_group_offsets(group_metadata.group)
+            
+            for topic_partition, offset in offsets.items():
+                print(f"Topic: {topic_partition.topic}, Partition: {topic_partition.partition}, "
+                      f"Offset: {offset.offset}, Metadata: {offset.metadata}")
+
+    except KafkaException as e:
+        print(f"Error: {e}")
+    except Exception as e:
+        print(f"Unexpected Error: {e}")
+
+# Example: Get offsets for a specific consumer group
+get_consumer_group_offsets('your-consumer-group-id')
