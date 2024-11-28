@@ -1,0 +1,46 @@
+from kafka import KafkaConsumer, KafkaAdminClient
+from kafka.admin import KafkaAdminClient, NewTopic
+from kafka.errors import KafkaError
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Kafka configuration
+KAFKA_BROKER = 'localhost:9092'  # Update with your Kafka broker address
+TOPIC_NAME = 'your_topic_name'   # Update with your Kafka topic name
+
+def list_consumer_groups(admin_client):
+    """List all consumer groups."""
+    return admin_client.list_consumer_groups()
+
+def get_offsets(admin_client, consumer_group, topic):
+    """Get the offsets for a specific consumer group and topic."""
+    try:
+        offsets = admin_client.list_consumer_group_offsets(consumer_group)
+        return {tp: offset.offset for tp, offset in offsets.items() if tp.topic == topic}
+    except KafkaError as e:
+        logger.error(f"Error fetching offsets for group {consumer_group}: {e}")
+        return {}
+
+def main():
+    # Create a Kafka admin client
+    admin_client = KafkaAdminClient(bootstrap_servers=KAFKA_BROKER)
+    
+    # List all consumer groups
+    consumer_groups = list_consumer_groups(admin_client)
+    logger.info(f"Consumer groups found: {consumer_groups}")
+    
+    # Log offsets for each consumer group for the specific topic
+    for group, _ in consumer_groups:
+        offsets = get_offsets(admin_client, group, TOPIC_NAME)
+        if offsets:
+            logger.info(f"Offsets for consumer group '{group}' on topic '{TOPIC_NAME}':")
+            for partition, offset in offsets.items():
+                logger.info(f"    Partition {partition.partition}: Offset {offset}")
+        else:
+            logger.info(f"No offsets found for consumer group '{group}' on topic '{TOPIC_NAME}'.")
+
+if __name__ == "__main__":
+    main()
