@@ -1,28 +1,24 @@
 import * as cdk from 'aws-cdk-lib';
 import * as logs from 'aws-cdk-lib/aws-logs';
+import * as logs_destinations from 'aws-cdk-lib/aws-logs-destinations';
 
 export class LogsToMetricsStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const logGroup = new logs.LogGroup(this, 'MyLogGroup', {
-      logGroupName: '/aws/lambda/my-function-logs',
-      retention: logs.RetentionDays.ONE_WEEK,
-    });
+    // Reference the existing Log Group by its name
+    const existingLogGroupName = '/aws/lambda/my-existing-log-group'; // Replace with your Log Group name
+    const logGroup = logs.LogGroup.fromLogGroupName(this, 'ExistingLogGroup', existingLogGroupName);
 
-    // Metric Filter to emit TransactionCount with a Status dimension
-    new logs.MetricFilter(this, 'TransactionMetricFilter', {
+    // Create a Metric Filter to capture both ACK and NACK logs with a dimension
+    new logs.MetricFilter(this, 'AckNackMetricFilter', {
       logGroup,
       metricNamespace: 'MyApplication',
       metricName: 'TransactionCount',
-      filterPattern: logs.FilterPattern.jsonPattern(
-        '$.status',
-        logs.ComparisonOperator.IN,
-        ['ACK', 'NACK']
-      ),
-      metricValue: '1', // Emits 1 for every matched log
+      filterPattern: logs.FilterPattern.jsonPattern('$.status', logs.ComparisonOperator.IN, ['ACK', 'NACK']),
+      metricValue: '1',
       dimensions: {
-        Status: '$.status', // Emits 'ACK' or 'NACK' as dimension
+        Status: '$.status' // Add status dimension (ACK or NACK)
       },
     });
   }
