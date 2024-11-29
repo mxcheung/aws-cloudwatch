@@ -53,4 +53,14 @@ fields @timestamp, @message, @logStream, @log
 | sort @timestamp desc
 | limit 10000
 ```
+
+# combine
+```
+fields @timestamp, @message, @logStream, @log
+| filter @message like /customer function error/ or @message like /Method completed with status: 5/
+| parse @message /(customer function error: (?<customer_function_error>.+))|(Method completed with status: (?<status_5_error>5))/
+| display @timestamp, coalesce(customer_function_error, status_5_error) as error_message, @logStream, @log
+| sort @timestamp desc
+| limit 10000
+```
 `
