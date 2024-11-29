@@ -11,3 +11,13 @@ fields @timestamp, @message, @ptr
 | filter @timestamp >= specific_log.@timestamp - 30000 and @timestamp <= specific_log.@timestamp + 30000
 | sort @timestamp
 ```
+
+
+```
+fields @timestamp, @message, @logStream, @log
+| filter  @message like /customer function error/
+| parse @message /customer function error: (?<customer_function_error>.+)/
+| display @timestamp, customer_function_error, @logStream, @log 
+| sort @timestamp desc
+| limit 10000
+```
