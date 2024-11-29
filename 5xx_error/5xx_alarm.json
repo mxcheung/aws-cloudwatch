@@ -1,0 +1,48 @@
+{
+    "widgets": [
+        {
+            "height": 8,
+            "width": 9,
+            "y": 0,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/ApiGateway", "5XXError", "ApiName", "api-gateway" ]
+                ],
+                "region": "eu-central-1",
+                "title": "5XXError"
+            }
+        },
+        {
+            "height": 8,
+            "width": 15,
+            "y": 0,
+            "x": 9,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE 'API-Gateway-Execution-Logs_fv5m0zqimd/dev' | fields @timestamp, @message, @logStream, @log\n| parse @message /customer function error: (?<customer_function_error>.+)/\n| parse @message /Method completed with status: (?<status>5.+)/\n| filter ispresent(customer_function_error) or ispresent(status)\n| display @timestamp, customer_function_error, status, @logStream, @log \n| sort @timestamp desc\n| limit 10000\n\n",
+                "queryLanguage": "CWLI",
+                "region": "eu-central-1",
+                "title": "Log group: API-Gateway-Execution-Logs_fv5m0zqimd/dev",
+                "view": "table"
+            }
+        },
+        {
+            "height": 6,
+            "width": 24,
+            "y": 8,
+            "x": 0,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '/aws/lambda/cii-lambda-process' | SOURCE '/aws/lambda/cii-lambda-upload' | fields @timestamp, @message, @logStream\n| filter @message like 'ERROR'\n| parse @log /^.{25}(?<Lambda>.+)/\n| sort @timestamp desc\n| limit 1000",
+                "queryLanguage": "CWLI",
+                "region": "eu-central-1",
+                "title": "Log group: multiple (2)",
+                "view": "table"
+            }
+        }
+    ]
+}
