@@ -45,3 +45,12 @@ fields @timestamp, @message, @logStream, @log
 | sort @timestamp desc
 | limit 10000
 ```
+```
+fields @timestamp, @message, @logStream, @log
+| filter  @message like /Method completed with status: 5/
+| parse @message /customer function error: (?<customer_function_error>.+)/
+| display @timestamp, customer_function_error, @logStream, @log 
+| sort @timestamp desc
+| limit 10000
+```
+`
