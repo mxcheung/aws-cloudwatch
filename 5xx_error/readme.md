@@ -21,3 +21,17 @@ fields @timestamp, @message, @logStream, @log
 | sort @timestamp desc
 | limit 10000
 ```
+
+
+```
+fields @timestamp, @message, @logStream, @log, @ptr
+| filter @message like /customer function error/
+| parse @message /customer function error: (?<customer_function_error>.+)/
+| sort @timestamp desc
+| limit 10000
+| as specific_error
+
+# Retrieve surrounding logs within a 30-second window around the error (adjust as needed)
+| filter @timestamp >= specific_error.@timestamp - 15000 and @timestamp <= specific_error.@timestamp + 15000
+| sort @timestamp desc
+```
