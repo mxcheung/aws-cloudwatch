@@ -32,11 +32,18 @@ export class LogToMetricsStack extends Stack {
       ],
     }));
 
-    // Add tags to the IAM Role
-    Tag.add(role, 'Environment', 'Production');
-    Tag.add(role, 'Application', 'MyApp');
-    Tag.add(role, 'Owner', 'TeamX');
-    Tag.add(role, 'RolePurpose', 'LogMetricFilter');
+    // List of tags to apply to the IAM Role
+    const tags = [
+      { key: 'Environment', value: 'Production' },
+      { key: 'Application', value: 'MyApp' },
+      { key: 'Owner', value: 'TeamX' },
+      { key: 'RolePurpose', value: 'LogMetricFilter' }
+    ];
+
+    // Iterate over the tags list and add each tag to the role
+    tags.forEach(tag => {
+      Tag.add(role, tag.key, tag.value);
+    });
 
     // Create the Metric Filter
     new MetricFilter(this, 'MetricFilter', {
