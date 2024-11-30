@@ -8,7 +8,7 @@ export class LogsToMetricsStack extends cdk.Stack {
     // Reference the existing Log Group by its name
     const existingLogGroupName = '/aws/lambda/my-existing-log-group'; // Replace with your actual log group name
 
-    // Ensure the log group is correctly fetched
+    // Reference existing log group
     const logGroup = logs.LogGroup.fromLogGroupName(this, 'ExistingLogGroup', existingLogGroupName);
 
     if (!logGroup) {
@@ -20,10 +20,8 @@ export class LogsToMetricsStack extends cdk.Stack {
       logGroup,
       metricNamespace: 'MyApplication', // Custom namespace for your metrics
       metricName: 'TransactionCount',
-      filterPattern: logs.FilterPattern.jsonPattern(
-        '$.instruction_metadata',
-        logs.ComparisonOperator.ANY,
-        [{ namespace: 'MessagingProcessing', status: ['ACK', 'NACK'] }]
+      filterPattern: logs.FilterPattern.literal(
+        `{ $.instruction_metadata.namespace = "MessagingProcessing" && ($.instruction_metadata.status = "ACK" || $.instruction_metadata.status = "NACK") }`
       ),
       metricValue: '1',
       dimensions: {
