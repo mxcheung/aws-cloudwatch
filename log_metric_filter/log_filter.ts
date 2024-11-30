@@ -4,6 +4,7 @@ import { LogGroup } from 'aws-cdk-lib/aws-logs';
 import { PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { MetricFilter, FilterPattern } from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
+import { Tag } from 'aws-cdk-lib';
 
 export class LogToMetricsStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -30,6 +31,12 @@ export class LogToMetricsStack extends Stack {
         logGroup.logGroupArn,  // Log group that the metric filter will be applied to
       ],
     }));
+
+    // Add tags to the IAM Role
+    Tag.add(role, 'Environment', 'Production');
+    Tag.add(role, 'Application', 'MyApp');
+    Tag.add(role, 'Owner', 'TeamX');
+    Tag.add(role, 'RolePurpose', 'LogMetricFilter');
 
     // Create the Metric Filter
     new MetricFilter(this, 'MetricFilter', {
