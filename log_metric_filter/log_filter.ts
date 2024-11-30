@@ -32,16 +32,19 @@ export class LogToMetricsStack extends Stack {
       ],
     }));
 
-    // List of tags to apply to the IAM Role
-    const tags = [
+    // List of tags to apply to the IAM Role (can be undefined)
+    const tags: { key: string, value: string }[] | undefined = [
       { key: 'Environment', value: 'Production' },
       { key: 'Application', value: 'MyApp' },
       { key: 'Owner', value: 'TeamX' },
       { key: 'RolePurpose', value: 'LogMetricFilter' }
     ];
 
-    // Iterate over the tags list and add each tag to the role
-    tags.forEach(tag => {
+    // Coalesce tags to an empty array if undefined
+    const tagsToApply: { key: string, value: string }[] = tags ?? [];
+
+    // Iterate over the tags list (or empty array) and add each tag to the role
+    tagsToApply.forEach((tag) => {
       Tag.add(role, tag.key, tag.value);
     });
 
