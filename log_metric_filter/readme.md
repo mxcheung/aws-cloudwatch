@@ -45,3 +45,14 @@ const messageCountMetric = new cloudwatch.Metric({
   statistic: 'Sum'               // Statistic like 'Sum', 'Average', etc.
 });
 ```
+
+
+```
+def validate_dict(d):
+    required_keys = ['a', 'b', 'c']
+    return all(key in d for key in required_keys)
+
+# Example usage
+my_dict = {'a': 1, 'b': 2, 'c': 3}
+print(validate_dict(my_dict))  # Output: True
+```
