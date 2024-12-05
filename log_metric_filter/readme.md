@@ -31,3 +31,7 @@ private createMetricFilter(
   dimensions: { [key: string]: string } // Corrected here
 ): MetricFilter
 ```
+
+```
+metricValue: '($.instruction_meta.message_count)', // Use extracted value
+```
