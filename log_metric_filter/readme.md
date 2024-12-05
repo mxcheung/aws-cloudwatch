@@ -35,3 +35,13 @@ private createMetricFilter(
 ```
 metricValue: '($.instruction_meta.message_count)', // Use extracted value
 ```
+
+```
+// Define a metric from CloudWatch
+const messageCountMetric = new cloudwatch.Metric({
+  namespace: 'x',                // Replace with your actual namespace
+  metricName: 'MessageCount',    // Metric name
+  period: cdk.Duration.minutes(5), // Period to fetch data
+  statistic: 'Sum'               // Statistic like 'Sum', 'Average', etc.
+});
+```
