@@ -182,3 +182,11 @@ fields @message
 | parse @message /client name (?<clientName>[^,]+), client reference (?<clientReference>[^,]+), .*error message: (?<errorMessage>.+)\./
 | display clientName, clientReference, errorMessage
 ```
+
+
+```
+fields @message
+| parse @message /error message: (?<errorMessage>.+)\./
+| stats count() as occurrences by errorMessage
+| sort occurrences desc
+```
