@@ -190,3 +190,11 @@ fields @message
 | stats count() as occurrences by errorMessage
 | sort occurrences desc
 ```
+
+```
+fields @message
+| parse @message /error message: (?<errorMessage>.+)\./
+| filter errorMessage != ""
+| stats count() as occurrences by errorMessage
+| sort occurrences desc
+```
