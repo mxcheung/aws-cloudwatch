@@ -203,3 +203,14 @@ Exchange code trade (EURX) not found.
 Subaccount to (9713-TRAD-780-1) not found.
 Opposite party OPPPAR not found.
 ```
+
+```
+fields @message
+| parse @message /error message: (?<errorMessage>.+)\./
+| filter ispresent(errorMessage)
+| parse errorMessage "Exchange code trade (*)" as exchangeCode
+| parse errorMessage "Subaccount to (* ) not found" as subAccount
+| parse errorMessage "Opposite party (*) not found" as oppositeParty
+| stats count() as occurrences by exchangeCode, subAccount, oppositeParty
+| sort occurrences desc
+```
