@@ -198,3 +198,8 @@ fields @message
 | stats count() as occurrences by errorMessage
 | sort occurrences desc
 ```
+```
+Exchange code trade (EURX) not found.
+Subaccount to (9713-TRAD-780-1) not found.
+Opposite party OPPPAR not found.
+```
