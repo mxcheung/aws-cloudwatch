@@ -215,3 +215,11 @@ fields @message
 | stats count() as occurrences by exchangeCode, subAccount, oppositeParty
 | sort occurrences desc
 ```
+
+```
+fields @message
+| parse @message /Subaccount(?: to)? \((?<subAccount>.*?)\) not found/ 
+| filter ispresent(subAccount)
+| stats count() as occurrences by subAccount
+| sort occurrences desc
+```
