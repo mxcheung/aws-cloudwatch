@@ -176,3 +176,9 @@ aws cloudwatch put-dashboard \
 ```
 [INFO]	2024-12-03T23:46:58.047Z	123ddf83-49ff-48b5-980a-219b1cff33ab	Instruction feedback (NAK) received from MICS (7 of 7) with client name TESTUSCLIENT, client reference PROCESS644105790, UUID 9beb3d0b-9aa1-43e1-844a-d82b635b7981, error message: The combination of Exchange(BOOP) and Opp Party (OPPPAR) doesn't exist in EXCHANGE CONVERSION file..
 ```
+
+```
+fields @message
+| parse @message /client name (?<clientName>[^,]+), client reference (?<clientReference>[^,]+), .*error message: (?<errorMessage>.+)\./
+| display clientName, clientReference, errorMessage
+```
