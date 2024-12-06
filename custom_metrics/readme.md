@@ -200,6 +200,7 @@ fields @message
 ```
 ```
 Exchange code trade (EURX) not found.
+Subaccount (9968-TRAD-1-2) not found.
 Subaccount to (9713-TRAD-780-1) not found.
 Opposite party OPPPAR not found.
 ```
