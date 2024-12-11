@@ -110,3 +110,9 @@ if __name__ == '__main__':
 ```
 {"time": "2024-12-11 06:20:09,698", "level": "INFO", "func": "handle_mics_status", "mes": "Received mics feedback with contents {'instruction': '{"Key": "20240319150221297307578924", "UUID": "f226de9c-0053-11ee-be56-0242ac120002", "ClientReference": "XXX1731295847", "ClientName": "AARDVARK", "DateTime": "2024-03-15T00:00:00.000000Z", "ClientNumber": 123,  "AccountNumber": 1, "SubAccountNumber": 1, }"}
 ```
+
+```
+index=your_index sourcetype=your_sourcetype
+| rex field=_raw "\"ClientReference\": \"(?<ClientReference>[^\"]+)\""
+| table ClientReference
+```
