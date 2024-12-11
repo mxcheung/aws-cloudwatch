@@ -126,3 +126,10 @@ index=your_index sourcetype=your_sourcetype
 | spath input=_raw
 | table time, level, func, mes, instruction.Key, instruction.UUID, instruction.ClientReference, instruction.ClientName, instruction.DateTime, instruction.ClientNumber, instruction.AccountNumber, instruction.SubAccountNumber
 ```
+
+```
+index=your_index sourcetype=your_sourcetype
+| rex field=mes "contents\s*(?<json>{.*})"
+| spath input=json
+| table time, level, func, json.instruction.Key, json.instruction.UUID, json.instruction.ClientReference, json.instruction.ClientName, json.instruction.DateTime, json.instruction.ClientNumber, json.instruction.AccountNumber, json.instruction.SubAccountNumber
+```
