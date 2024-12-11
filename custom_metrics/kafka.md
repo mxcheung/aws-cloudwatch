@@ -169,3 +169,11 @@ index=your_index sourcetype=your_sourcetype
 | spath input=instruction_json
 | table instruction.Key, instruction.ClientNumber, instruction.UUID, instruction.ClientReference, instruction.ClientName, instruction.DateTime, instruction.AccountNumber, instruction.SubAccountNumber
 ```
+
+
+```
+| rex field=_raw "'instruction':\s*'(?<instruction_json>\{.*\})'"
+| eval instruction_json = replace(instruction_json, "'", "\"")  # Convert single quotes to double quotes
+| spath input=instruction_json
+| table instruction.Key, instruction.ClientNumber, instruction.UUID, instruction.ClientReference, instruction.ClientName, instruction.DateTime, instruction.AccountNumber, instruction.SubAccountNumber
+```
