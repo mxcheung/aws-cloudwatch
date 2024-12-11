@@ -116,3 +116,7 @@ index=your_index sourcetype=your_sourcetype
 | rex field=_raw "\"ClientReference\": \"(?<ClientReference>[^\"]+)\""
 | table ClientReference
 ```
+
+```
+"ClientReference":\s*"(?<ClientReference>[^\"]+)"
+```
