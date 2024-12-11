@@ -177,3 +177,9 @@ index=your_index sourcetype=your_sourcetype
 | spath input=instruction_json
 | table instruction.Key, instruction.ClientNumber, instruction.UUID, instruction.ClientReference, instruction.ClientName, instruction.DateTime, instruction.AccountNumber, instruction.SubAccountNumber
 ```
+
+```
+| rex field=_raw "\"ErrorMessage\": \"(?<ErrorMessage>[^\"]+)\""
+| stats count by ErrorMessage
+| sort - count
+```
