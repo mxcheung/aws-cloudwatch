@@ -148,3 +148,9 @@ index=your_index sourcetype=your_sourcetype
 | table instruction.Key, instruction.UUID, instruction.ClientReference, instruction.ClientName, instruction.DateTime, instruction.ClientNumber, instruction.AccountNumber, instruction.SubAccountNumber
 
 ```
+
+```
+index=your_index sourcetype=your_sourcetype
+| rex field=mes "contents\s*\{\s*'instruction':\s*\{.*'ClientNumber':\s*(?<ClientNumber>\d+)"
+| table ClientNumber
+```
