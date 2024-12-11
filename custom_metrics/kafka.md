@@ -154,3 +154,7 @@ index=your_index sourcetype=your_sourcetype
 | rex field=mes "contents\s*\{\s*'instruction':\s*\{.*'ClientNumber':\s*(?<ClientNumber>\d+)"
 | table ClientNumber
 ```
+
+```
+| rex field=_raw "\"ClientNumber\":\s*(?<ClientNumber>\d+)"
+```
