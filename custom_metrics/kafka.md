@@ -139,3 +139,12 @@ index=your_index sourcetype=your_sourcetype
 | spath input=instruction output=instruction
 | table instruction.*
 ```
+
+```
+index=your_index sourcetype=your_sourcetype
+| rex field=mes "contents\s*\{\s*'instruction':\s*(?<instruction_json>\{.*\})"
+| eval instruction_json=replace(instruction_json, "'", "\"")
+| spath input=instruction_json
+| table instruction.Key, instruction.UUID, instruction.ClientReference, instruction.ClientName, instruction.DateTime, instruction.ClientNumber, instruction.AccountNumber, instruction.SubAccountNumber
+
+```
