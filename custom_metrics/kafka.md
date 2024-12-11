@@ -120,3 +120,9 @@ index=your_index sourcetype=your_sourcetype
 ```
 "ClientReference":\s*"(?<ClientReference>[^\"]+)"
 ```
+
+```
+index=your_index sourcetype=your_sourcetype
+| spath input=_raw
+| table time, level, func, mes, instruction.Key, instruction.UUID, instruction.ClientReference, instruction.ClientName, instruction.DateTime, instruction.ClientNumber, instruction.AccountNumber, instruction.SubAccountNumber
+```
