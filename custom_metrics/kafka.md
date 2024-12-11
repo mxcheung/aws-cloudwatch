@@ -158,3 +158,7 @@ index=your_index sourcetype=your_sourcetype
 ```
 | rex field=_raw "\"ClientNumber\":\s*(?<ClientNumber>\d+)"
 ```
+
+```
+| rex field=_raw "'instruction':\s*'(?<instruction>\{.*?\})'"
+```
