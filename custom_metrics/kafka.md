@@ -133,3 +133,9 @@ index=your_index sourcetype=your_sourcetype
 | spath input=json
 | table time, level, func, json.instruction.Key, json.instruction.UUID, json.instruction.ClientReference, json.instruction.ClientName, json.instruction.DateTime, json.instruction.ClientNumber, json.instruction.AccountNumber, json.instruction.SubAccountNumber
 ```
+```
+index=your_index sourcetype=your_sourcetype
+| spath input=mes
+| spath input=instruction output=instruction
+| table instruction.*
+```
