@@ -162,3 +162,10 @@ index=your_index sourcetype=your_sourcetype
 ```
 | rex field=_raw "'instruction':\s*'(?<instruction>\{.*?\})'"
 ```
+
+```
+| rex field=_raw "'instruction':\s*'(?<instruction_json>\{.*\})'"
+| eval instruction_json=replace(instruction_json, "'", "\"")
+| spath input=instruction_json
+| table instruction.Key, instruction.ClientNumber, instruction.UUID, instruction.ClientReference, instruction.ClientName, instruction.DateTime, instruction.AccountNumber, instruction.SubAccountNumber
+```
