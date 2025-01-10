@@ -1,0 +1,8 @@
+aws logs describe-log-groups --log-group-name-prefix 'aws/codebuild' --query 'logGroupNames' --output json | python3 -c "
+import sys
+import json
+data = json.load(sys.stdin)
+log_group_names = data.get('logGroupNames', [])
+for log_group in log_group_names:
+    print(log_group)
+"
