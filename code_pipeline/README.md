@@ -52,3 +52,7 @@ aws logs start-query ^
     --end-time 1700003600 ^
     --query-string "filter @message like /abc/"
 ```
+
+```
+aws logs get-query-results --query-id <query-id>
+```
