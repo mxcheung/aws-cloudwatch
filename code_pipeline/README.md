@@ -4,3 +4,12 @@ aws logs filter-log-events \
     --start-time <start-timestamp> \
     --end-time <end-timestamp>
 ```
+
+
+```
+aws logs start-query \
+    --log-group-name "/aws/lambda/your-log-group-name" \
+    --start-time $(date -d '-1 hour' +%s) \
+    --end-time $(date +%s) \
+    --query-string 'filter @message like /abc/'
+```
