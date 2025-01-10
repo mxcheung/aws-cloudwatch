@@ -21,5 +21,13 @@ aws logs start-query \
     --start-time $START_TIME \
     --end-time $END_TIME \
     --query-string 'filter @message like /abc/'
+QUERY_ID=$(aws logs start-query \
+    $LOG_GROUP_ARGS \
+    --start-time $START_TIME \
+    --end-time $END_TIME \
+    ---query-string 'filter @message like /abc/' \
+    --output text --query 'queryId')
+
+aws logs get-query-results --query-id "$QUERY_ID"
 
 ```
