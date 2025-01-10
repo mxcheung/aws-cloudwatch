@@ -43,3 +43,12 @@ done
 # Get query results
 aws logs get-query-results --query-id "$QUERY_ID"
 ```
+
+
+```
+aws logs start-query ^
+    --log-group-name "/aws/lambda/Program Files" ^
+    --start-time 1700000000 ^
+    --end-time 1700003600 ^
+    --query-string "filter @message like /abc/"
+```
